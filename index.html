@@ -3,114 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>N1 Panel</title>
+  <title>N1 TÜRKİYE</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0f0f;
-      --surface: #1a1a1a;
-      --surface2: #222222;
-      --border: #2a2a2a;
-      --accent: #6c5ce7;
-      --accent-light: #a29bfe;
-      --accent-glow: rgba(108,92,231,0.15);
-      --green: #00b894;
-      --red: #ff6b6b;
-      --orange: #fdcb6e;
-      --text: #e0e0e0;
-      --text2: #999;
-      --text3: #666;
-      --radius: 12px;
-      --radius-sm: 8px;
+      --bg: #050a0e;
+      --surface: #0a1117;
+      --surface2: #0f1923;
+      --surface3: #142230;
+      --border: #1a2d3d;
+      --border-glow: #00ff9530;
+      --green: #00ff95;
+      --green2: #00cc77;
+      --green-dim: #00ff9520;
+      --green-glow: #00ff9510;
+      --cyan: #00e5ff;
+      --cyan-dim: #00e5ff15;
+      --red: #ff3355;
+      --red-dim: #ff335515;
+      --yellow: #ffcc00;
+      --yellow-dim: #ffcc0015;
+      --purple: #bf5fff;
+      --purple-dim: #bf5fff15;
+      --text: #c5d0da;
+      --text2: #6a7a8a;
+      --text3: #3a4a5a;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --font: 'JetBrains Mono', 'Share Tech Mono', monospace;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: var(--font);
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* Header */
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,255,149,0.012) 2px,
+        rgba(0,255,149,0.012) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Matrix rain canvas */
+    #matrixCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* ═══ Header ═══ */
     .header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15,15,15,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(5,10,14,0.92);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
+      padding: 0 16px;
+      height: 56px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0.3;
     }
 
     .header-back {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--surface);
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      background: var(--surface2);
       border: 1px solid var(--border);
-      color: var(--text);
+      color: var(--green);
       display: none;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 18px;
-      transition: all 0.2s;
+      font-size: 16px;
+      transition: all 0.15s;
       flex-shrink: 0;
     }
 
-    .header-back:active { transform: scale(0.9); background: var(--surface2); }
+    .header-back:active { transform: scale(0.9); background: var(--surface3); }
     .header-back.visible { display: flex; }
 
+    .terminal-dots {
+      display: flex;
+      gap: 5px;
+      margin-right: 4px;
+    }
+
+    .terminal-dots span {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    .terminal-dots span:nth-child(1) { background: #ff5f57; }
+    .terminal-dots span:nth-child(2) { background: #febc2e; }
+    .terminal-dots span:nth-child(3) { background: #28c840; }
+
     .header-title {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 700;
-      background: linear-gradient(135deg, var(--accent-light), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--green);
+      text-shadow: 0 0 10px rgba(0,255,149,0.3);
+      letter-spacing: 1px;
     }
 
-    .header-subtitle {
-      font-size: 11px;
-      color: var(--text3);
+    .header-title .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .header-user {
       margin-left: auto;
+      font-size: 10px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    /* Pages */
-    .page { display: none; padding: 16px; padding-bottom: 40px; }
-    .page.active { display: block; animation: fadeIn 0.25s ease; }
+    .header-user .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: pulse 2s infinite;
+    }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* Accordion */
-    .accordion { display: flex; flex-direction: column; gap: 8px; }
+    /* ═══ Pages ═══ */
+    .page { display: none; padding: 12px; padding-bottom: 40px; position: relative; z-index: 1; }
+    .page.active { display: block; animation: pageIn 0.3s ease; }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Boot text */
+    .boot-text {
+      font-size: 10px;
+      color: var(--text3);
+      margin-bottom: 14px;
+      padding: 8px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      line-height: 1.7;
+      overflow: hidden;
+    }
+
+    .boot-text .line { opacity: 0; animation: bootLine 0.05s forwards; }
+    .boot-text .ok { color: var(--green); }
+    .boot-text .warn { color: var(--yellow); }
+
+    /* ═══ Accordion ═══ */
+    .accordion { display: flex; flex-direction: column; gap: 6px; }
 
     .accordion-item {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
 
-    .accordion-item.open { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-glow), 0 4px 24px rgba(0,0,0,0.3); }
+    .accordion-item.open {
+      border-color: var(--green);
+      box-shadow: 0 0 15px rgba(0,255,149,0.07), inset 0 0 15px rgba(0,255,149,0.03);
+    }
 
     .accordion-header {
       display: flex;
       align-items: center;
-      padding: 14px 16px;
+      padding: 12px 14px;
       cursor: pointer;
-      gap: 12px;
+      gap: 10px;
       user-select: none;
       transition: background 0.15s;
     }
@@ -118,38 +217,49 @@
     .accordion-header:active { background: var(--surface2); }
 
     .accordion-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 38px; height: 38px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
       flex-shrink: 0;
+      position: relative;
+    }
+
+    .accordion-icon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      border: 1px solid currentColor;
+      opacity: 0.15;
     }
 
     .accordion-info { flex: 1; min-width: 0; }
 
     .accordion-name {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--text);
+      letter-spacing: 0.3px;
     }
 
     .accordion-count {
-      font-size: 12px;
+      font-size: 10px;
       color: var(--text3);
-      margin-top: 2px;
+      margin-top: 1px;
+      font-family: var(--font);
     }
 
     .accordion-arrow {
-      font-size: 12px;
       color: var(--text3);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, color 0.3s;
       flex-shrink: 0;
+      font-size: 10px;
     }
 
-    .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
+    .accordion-item.open .accordion-arrow { transform: rotate(180deg); color: var(--green); }
 
     .accordion-body {
       max-height: 0;
@@ -158,75 +268,107 @@
     }
 
     .accordion-body-inner {
-      padding: 0 12px 12px;
+      padding: 2px 10px 10px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .query-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 11px 14px;
+      gap: 8px;
+      padding: 10px 12px;
       background: var(--surface2);
-      border: 1px solid transparent;
+      border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all 0.15s;
       color: var(--text);
-      font-family: inherit;
-      font-size: 13px;
+      font-family: var(--font);
+      font-size: 12px;
       font-weight: 500;
       text-align: left;
       width: 100%;
     }
 
-    .query-btn:active { transform: scale(0.98); background: var(--border); }
-    .query-btn .q-icon { font-size: 16px; flex-shrink: 0; }
+    .query-btn:active {
+      transform: scale(0.98);
+      border-color: var(--green);
+      background: var(--surface3);
+    }
+
+    .query-btn .q-icon { font-size: 14px; flex-shrink: 0; }
     .query-btn .q-label { flex: 1; }
-    .query-btn .q-arrow { color: var(--text3); font-size: 11px; }
+    .query-btn .q-arrow { color: var(--green); font-size: 12px; opacity: 0.5; }
 
-    /* Category Colors */
-    .cat-mernis .accordion-icon { background: rgba(108,92,231,0.15); }
-    .cat-telefon .accordion-icon { background: rgba(0,184,148,0.15); }
-    .cat-ekstra .accordion-icon { background: rgba(253,203,110,0.15); }
-    .cat-kontrol .accordion-icon { background: rgba(255,107,107,0.15); }
-    .cat-tapu .accordion-icon { background: rgba(0,206,209,0.15); }
-    .cat-diger .accordion-icon { background: rgba(162,155,254,0.15); }
-    .cat-admin .accordion-icon { background: rgba(255,107,107,0.15); }
+    /* Category accent colors */
+    .cat-mernis .accordion-icon { color: var(--green); background: var(--green-dim); }
+    .cat-mernis.open { border-color: var(--green); }
+    .cat-telefon .accordion-icon { color: var(--cyan); background: var(--cyan-dim); }
+    .cat-telefon.open { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,229,255,0.07); }
+    .cat-ekstra .accordion-icon { color: var(--yellow); background: var(--yellow-dim); }
+    .cat-ekstra.open { border-color: var(--yellow); box-shadow: 0 0 15px rgba(255,204,0,0.07); }
+    .cat-kontrol .accordion-icon { color: var(--red); background: var(--red-dim); }
+    .cat-kontrol.open { border-color: var(--red); box-shadow: 0 0 15px rgba(255,51,85,0.07); }
+    .cat-tapu .accordion-icon { color: var(--cyan); background: var(--cyan-dim); }
+    .cat-tapu.open { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,229,255,0.07); }
+    .cat-diger .accordion-icon { color: var(--purple); background: var(--purple-dim); }
+    .cat-diger.open { border-color: var(--purple); box-shadow: 0 0 15px rgba(191,95,255,0.07); }
+    .cat-admin .accordion-icon { color: var(--red); background: var(--red-dim); }
+    .cat-admin.open { border-color: var(--red); box-shadow: 0 0 15px rgba(255,51,85,0.07); }
 
-    /* Form Page */
+    /* ═══ Form Page ═══ */
     .form-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 18px;
+      position: relative;
+    }
+
+    .form-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--cyan), var(--green));
+      border-radius: var(--radius) var(--radius) 0 0;
     }
 
     .form-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
+      color: var(--green);
+      margin-bottom: 2px;
+      text-shadow: 0 0 8px rgba(0,255,149,0.2);
     }
 
     .form-desc {
-      font-size: 12px;
+      font-size: 10px;
       color: var(--text3);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      font-family: var(--font);
     }
 
-    .form-group { margin-bottom: 16px; }
+    .form-group { margin-bottom: 14px; }
 
     .form-label {
-      display: block;
-      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
       font-weight: 600;
       color: var(--text2);
       margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+    }
+
+    .form-label::before {
+      content: '>';
+      color: var(--green);
+      font-weight: 700;
     }
 
     .form-input {
@@ -235,132 +377,172 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 15px;
+      color: var(--green);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 500;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all 0.2s;
+      caret-color: var(--green);
     }
 
-    .form-input::placeholder { color: var(--text3); }
-    .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .form-input::placeholder { color: var(--text3); font-weight: 400; }
+
+    .form-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(0,255,149,0.1), 0 0 20px rgba(0,255,149,0.05);
+    }
 
     .form-hint {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text3);
       margin-top: 4px;
     }
 
-    .form-submit {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
-      border: none;
-      border-radius: var(--radius-sm);
-      color: white;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 8px;
-    }
-
-    .form-submit:active { transform: scale(0.98); opacity: 0.9; }
-    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
     .form-optional {
-      font-size: 10px;
+      font-size: 9px;
       color: var(--text3);
       font-weight: 400;
       text-transform: none;
       letter-spacing: 0;
     }
 
-    /* Result Page */
+    .form-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, rgba(0,255,149,0.15), rgba(0,229,255,0.1));
+      border: 1px solid var(--green);
+      border-radius: var(--radius-sm);
+      color: var(--green);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(0,255,149,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-submit::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,255,149,0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .form-submit:active { transform: scale(0.98); }
+    .form-submit:active::before { left: 100%; }
+    .form-submit:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* ═══ Result Page ═══ */
     .result-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
     }
 
     .result-title {
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 700;
+      color: var(--green);
+      text-shadow: 0 0 8px rgba(0,255,149,0.2);
     }
 
     .result-count {
-      font-size: 12px;
-      color: var(--accent-light);
-      background: var(--accent-glow);
-      padding: 4px 10px;
-      border-radius: 20px;
+      font-size: 10px;
+      color: var(--green);
+      background: var(--green-dim);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,255,149,0.2);
+      font-weight: 600;
     }
 
     .result-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       overflow: hidden;
+      position: relative;
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: var(--green);
+      opacity: 0.5;
     }
 
     .result-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
+      padding: 10px 14px;
       background: var(--surface2);
       border-bottom: 1px solid var(--border);
     }
 
     .result-card-num {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent-light);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 1px;
     }
 
     .result-copy-btn {
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 5px 10px;
-      background: var(--accent-glow);
-      border: 1px solid rgba(108,92,231,0.3);
-      border-radius: 6px;
-      color: var(--accent-light);
-      font-family: inherit;
-      font-size: 11px;
-      font-weight: 500;
+      padding: 4px 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text2);
+      font-family: var(--font);
+      font-size: 10px;
       cursor: pointer;
       transition: all 0.15s;
     }
 
     .result-copy-btn:active { transform: scale(0.95); }
-    .result-copy-btn.copied { background: rgba(0,184,148,0.15); border-color: rgba(0,184,148,0.3); color: var(--green); }
+    .result-copy-btn.copied { border-color: var(--green); color: var(--green); }
 
-    .result-rows { padding: 8px 0; }
+    .result-rows { padding: 6px 0; }
 
     .result-row {
       display: flex;
-      padding: 6px 16px;
-      font-size: 13px;
-      line-height: 1.5;
+      padding: 5px 14px;
+      font-size: 11px;
+      line-height: 1.6;
       transition: background 0.1s;
+      gap: 8px;
     }
 
-    .result-row:active { background: var(--surface2); }
+    .result-row:nth-child(odd) { background: rgba(0,255,149,0.015); }
 
     .result-row-label {
       color: var(--text3);
-      min-width: 110px;
+      min-width: 100px;
       flex-shrink: 0;
-      font-size: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
     }
 
     .result-row-value {
-      color: var(--text);
+      color: var(--green);
       font-weight: 500;
       word-break: break-all;
     }
@@ -369,119 +551,147 @@
 
     .result-copy-all {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      color: var(--accent-light);
-      font-family: inherit;
-      font-size: 14px;
+      color: var(--cyan);
+      font-family: var(--font);
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
       margin-top: 6px;
+      letter-spacing: 0.5px;
     }
 
-    .result-copy-all:active { transform: scale(0.98); background: var(--surface2); }
+    .result-copy-all:active { transform: scale(0.98); border-color: var(--cyan); }
 
     .no-result {
       text-align: center;
       padding: 40px 20px;
-      color: var(--text3);
     }
 
-    .no-result-icon { font-size: 48px; margin-bottom: 12px; }
-    .no-result-text { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text2); }
-    .no-result-hint { font-size: 13px; }
+    .no-result-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.5; }
+    .no-result-text { font-size: 13px; font-weight: 600; color: var(--red); margin-bottom: 4px; }
+    .no-result-hint { font-size: 11px; color: var(--text3); }
 
-    /* Loading */
+    /* ═══ Loading ═══ */
     .loading-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15,15,15,0.9);
+      background: rgba(5,10,14,0.92);
       backdrop-filter: blur(8px);
       z-index: 200;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .loading-overlay.active { display: flex; }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
+    .cyber-loader {
+      width: 44px; height: 44px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-right-color: var(--cyan);
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.7s linear infinite;
+      box-shadow: 0 0 15px rgba(0,255,149,0.15);
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .loading-text { font-size: 14px; color: var(--text2); }
+    .loading-text {
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: loadPulse 1.5s ease infinite;
+    }
 
-    /* Toast */
+    @keyframes loadPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* ═══ Toast ═══ */
     .toast {
       position: fixed;
       bottom: 30px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
+      transform: translateX(-50%) translateY(80px);
       background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: var(--font);
+      font-weight: 600;
       z-index: 300;
       transition: transform 0.3s ease;
       white-space: nowrap;
+      box-shadow: 0 0 20px rgba(0,255,149,0.1);
     }
 
     .toast.show { transform: translateX(-50%) translateY(0); }
 
+    /* Glitch effect for title */
+    @keyframes glitch {
+      0%, 100% { text-shadow: 0 0 10px rgba(0,255,149,0.3); }
+      25% { text-shadow: -1px 0 var(--red), 1px 0 var(--cyan); }
+      50% { text-shadow: 0 0 10px rgba(0,255,149,0.3); }
+      75% { text-shadow: 1px 0 var(--red), -1px 0 var(--cyan); }
+    }
+
+    .glitch-hover:active { animation: glitch 0.3s ease; }
+
     /* Scrollbar */
-    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--green); }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-back" id="backBtn" onclick="goBack()">&#8249;</div>
-    <div class="header-title" id="headerTitle">N1 Panel</div>
-    <div class="header-subtitle" id="headerSub">v2.0</div>
-  </div>
+<canvas id="matrixCanvas"></canvas>
 
-  <!-- HOME PAGE -->
-  <div class="page active" id="homePage">
-    <div class="accordion" id="accordionContainer"></div>
-  </div>
+<!-- Header -->
+<div class="header">
+  <div class="header-back" id="backBtn" onclick="goBack()">‹</div>
+  <div class="terminal-dots"><span></span><span></span><span></span></div>
+  <div class="header-title" id="headerTitle">N1 TÜRKİYE:~$ <span class="blink">_</span></div>
+  <div class="header-user"><div class="dot"></div> online</div>
+</div>
 
-  <!-- FORM PAGE -->
-  <div class="page" id="formPage">
-    <div class="form-card" id="formCard"></div>
-  </div>
+<!-- HOME -->
+<div class="page active" id="homePage">
+  <div class="boot-text" id="bootText"></div>
+  <div class="accordion" id="accordionContainer"></div>
+</div>
 
-  <!-- RESULT PAGE -->
-  <div class="page" id="resultPage">
-    <div id="resultContainer"></div>
-  </div>
+<!-- FORM -->
+<div class="page" id="formPage">
+  <div class="form-card" id="formCard"></div>
+</div>
 
-  <!-- LOADING -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="spinner"></div>
-    <div class="loading-text">Sorgulanıyor...</div>
-  </div>
+<!-- RESULT -->
+<div class="page" id="resultPage">
+  <div id="resultContainer"></div>
+</div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="cyber-loader"></div>
+  <div class="loading-text">Sorgulanıyor...</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
+// ═══ Telegram Init ═══
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.expand(); tg.ready(); }
 
@@ -489,94 +699,155 @@ const userId = tg ? (tg.initDataUnsafe?.user?.id || 0) : 0;
 const ADMIN_ID = 7424617978;
 const isAdmin = userId === ADMIN_ID;
 
-// ─── Query Definitions ───
+// ═══ Matrix Rain ═══
+(function initMatrix() {
+  const c = document.getElementById('matrixCanvas');
+  const ctx = c.getContext('2d');
+  let w, h, cols, drops;
+
+  function resize() {
+    w = c.width = window.innerWidth;
+    h = c.height = window.innerHeight;
+    cols = Math.floor(w / 14);
+    drops = Array(cols).fill(1);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+
+  function draw() {
+    ctx.fillStyle = 'rgba(5,10,14,0.08)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#00ff9515';
+    ctx.font = '12px monospace';
+
+    for (let i = 0; i < cols; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(char, i * 14, drops[i] * 14);
+      if (drops[i] * 14 > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+// ═══ Boot Sequence ═══
+function bootSequence() {
+  const el = document.getElementById('bootText');
+  const lines = [
+    ['[SYS]', 'Initializing N1 TÜRKİYE...', 'ok'],
+    ['[NET]', 'Connecting to database nodes...', 'ok'],
+    ['[SEC]', 'Encryption layer active (AES-256)', 'ok'],
+    ['[API]', 'Loading query modules...', 'ok'],
+    ['[RDY]', `${isAdmin ? 'Admin' : 'User'} session started ✓`, 'ok'],
+  ];
+
+  let html = '';
+  lines.forEach((l, i) => {
+    html += `<div class="line" style="animation-delay:${i * 0.12}s"><span style="color:var(--cyan)">${l[0]}</span> ${l[1]} <span class="${l[2]}">[${l[2].toUpperCase()}]</span></div>`;
+  });
+  el.innerHTML = html;
+
+  // Animate lines
+  setTimeout(() => {
+    el.querySelectorAll('.line').forEach((line, i) => {
+      setTimeout(() => { line.style.opacity = '1'; }, i * 120);
+    });
+  }, 50);
+}
+
+// ═══ Query Definitions ═══
 const categories = [
   {
-    id: 'mernis', name: 'Mernis', icon: '🔍', css: 'cat-mernis',
+    id:'mernis', name:'Mernis', icon:'⟁', css:'cat-mernis',
     queries: [
-      { type:'tckn', name:'TC Kimlik Sorgu', icon:'🪪', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'tc_pro', name:'TC Pro Sorgu', icon:'🪪', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'ad_soyad', name:'Ad Soyad Sorgu', icon:'👤', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'}] },
-      { type:'ad_soyad_pro', name:'Ad Soyad Pro', icon:'👤', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'},{key:'city',label:'İl',placeholder:'İstanbul'},{key:'district',label:'İlçe',placeholder:'Kadıköy',optional:true}] },
-      { type:'aile', name:'Aile Sorgu', icon:'👨‍👩‍👧‍👦', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'aile_pro', name:'Aile Pro Sorgu', icon:'👨‍👩‍👧‍👦', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'sulale', name:'Sülale Sorgu', icon:'🌳', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'sulale_pro', name:'Sülale Pro', icon:'🌳', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'hikaye', name:'Hikaye', icon:'📖', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] }
+      { type:'tckn', name:'TC Kimlik Sorgu', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'tc_pro', name:'TC Pro Sorgu', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'ad_soyad', name:'Ad Soyad Sorgu', icon:'◉', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'}] },
+      { type:'ad_soyad_pro', name:'Ad Soyad Pro', icon:'◉', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'},{key:'city',label:'İl',placeholder:'İstanbul'},{key:'district',label:'İlçe',placeholder:'Kadıköy',optional:true}] },
+      { type:'aile', name:'Aile Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'aile_pro', name:'Aile Pro Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'sulale', name:'Sülale Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'sulale_pro', name:'Sülale Pro', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'hikaye', name:'Hikaye', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] }
     ]
   },
   {
-    id: 'telefon', name: 'Telefon', icon: '📱', css: 'cat-telefon',
+    id:'telefon', name:'Telefon', icon:'☎', css:'cat-telefon',
     queries: [
-      { type:'tcgsm', name:'TC → GSM', icon:'📲', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'gsmtc', name:'GSM → TC', icon:'📲', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] },
-      { type:'operator', name:'Operatör Sorgu', icon:'📡', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] }
+      { type:'tcgsm', name:'TC → GSM', icon:'▸', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'gsmtc', name:'GSM → TC', icon:'▸', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] },
+      { type:'operator', name:'Operatör Sorgu', icon:'▸', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] }
     ]
   },
   {
-    id: 'ekstra', name: 'Ekstra', icon: '⚡', css: 'cat-ekstra',
+    id:'ekstra', name:'Ekstra', icon:'⚡', css:'cat-ekstra',
     queries: [
-      { type:'adres', name:'Adres Sorgu', icon:'📍', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'adres_2015', name:'Adres 2015', icon:'📍', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'is_yeri', name:'İş Yeri Sorgu', icon:'🏢', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'okul_no', name:'Okul No Sorgu', icon:'🎓', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'vesika', name:'Vesika Sorgu', icon:'📸', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'yabanci', name:'Yabancı Sorgu', icon:'🌍', fields:[{key:'id',label:'Pasaport/Kimlik No',placeholder:'Numara girin'}] },
-      { type:'akparti', name:'AK Parti Sorgu', icon:'🏛️', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] }
+      { type:'adres', name:'Adres Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'adres_2015', name:'Adres 2015', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'is_yeri', name:'İş Yeri Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'okul_no', name:'Okul No Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'vesika', name:'Vesika Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'yabanci', name:'Yabancı Sorgu', icon:'▹', fields:[{key:'id',label:'Pasaport/Kimlik No',placeholder:'Numara girin'}] },
+      { type:'akparti', name:'AK Parti Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] }
     ]
   },
   {
-    id: 'kontrol', name: 'Kontrol', icon: '🛡️', css: 'cat-kontrol',
+    id:'kontrol', name:'Kontrol', icon:'⛨', css:'cat-kontrol',
     queries: [
-      { type:'dns', name:'DNS Sorgu', icon:'🌐', fields:[{key:'domain',label:'Domain',placeholder:'example.com'}] },
-      { type:'bin', name:'BIN Sorgu', icon:'💳', fields:[{key:'bin',label:'BIN (6 hane)',placeholder:'123456',maxlength:6}] },
-      { type:'ip_checker', name:'IP Sorgu', icon:'🌐', fields:[{key:'ip',label:'IP Adresi',placeholder:'1.2.3.4'}] },
-      { type:'mail_checker', name:'Mail Sorgu', icon:'📧', fields:[{key:'email',label:'E-Posta',placeholder:'ornek@mail.com'}] },
-      { type:'cc_checker', name:'CC Check', icon:'💳', fields:[{key:'cc',label:'Kart Bilgisi',placeholder:'Kart bilgisi girin'}] },
-      { type:'dc', name:'Discord Sorgu', icon:'🎮', fields:[{key:'token',label:'Discord Token',placeholder:'Token girin'}] }
+      { type:'dns', name:'DNS Sorgu', icon:'⊕', fields:[{key:'domain',label:'Domain',placeholder:'example.com'}] },
+      { type:'bin', name:'BIN Sorgu', icon:'⊕', fields:[{key:'bin',label:'BIN (6 hane)',placeholder:'123456',maxlength:6}] },
+      { type:'ip_checker', name:'IP Sorgu', icon:'⊕', fields:[{key:'ip',label:'IP Adresi',placeholder:'1.2.3.4'}] },
+      { type:'mail_checker', name:'Mail Sorgu', icon:'⊕', fields:[{key:'email',label:'E-Posta',placeholder:'ornek@mail.com'}] },
+      { type:'cc_checker', name:'CC Check', icon:'⊕', fields:[{key:'cc',label:'Kart Bilgisi',placeholder:'Kart bilgisi girin'}] },
+      { type:'dc', name:'Discord Sorgu', icon:'⊕', fields:[{key:'token',label:'Discord Token',placeholder:'Token girin'}] }
     ]
   },
   {
-    id: 'tapu', name: 'Tapu', icon: '🏠', css: 'cat-tapu',
+    id:'tapu', name:'Tapu', icon:'⌂', css:'cat-tapu',
     queries: [
-      { type:'tapu', name:'Tapu Sorgu', icon:'🏠', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'istanbul_tapu', name:'İstanbul Tapu', icon:'🏠', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] },
-      { type:'kocaeli_tapu', name:'Kocaeli Tapu', icon:'🏠', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'11 haneli TC',maxlength:11}] }
+      { type:'tapu', name:'Tapu Sorgu', icon:'□', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'istanbul_tapu', name:'İstanbul Tapu', icon:'□', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'kocaeli_tapu', name:'Kocaeli Tapu', icon:'□', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] }
     ]
   },
   {
-    id: 'diger', name: 'Diğer', icon: '📦', css: 'cat-diger',
+    id:'diger', name:'Diğer', icon:'⌬', css:'cat-diger',
     queries: [
-      { type:'gpt', name:'GPT Soru', icon:'🤖', fields:[{key:'question',label:'Soru',placeholder:'Sorunuzu yazın'}] },
-      { type:'sifre_olusturucu', name:'Şifre Oluşturucu', icon:'🔐', fields:[{key:'length',label:'Uzunluk',placeholder:'16'}] },
-      { type:'web_kazima', name:'Web Kazıma', icon:'🕷️', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
-      { type:'encode', name:'Encode', icon:'🔒', fields:[{key:'text',label:'Metin',placeholder:'Encode edilecek metin'}] },
-      { type:'decode', name:'Decode', icon:'🔓', fields:[{key:'text',label:'Metin',placeholder:'Decode edilecek metin'}] },
-      { type:'log_finder', name:'Log Finder', icon:'📂', fields:[{key:'query',label:'Arama',placeholder:'Aranacak terim'}] },
-      { type:'screenshot', name:'Screenshot', icon:'📸', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
-      { type:'craftrise', name:'Craftrise', icon:'🎮', fields:[{key:'username',label:'Kullanıcı Adı',placeholder:'Kullanıcı adı'}] },
-      { type:'facebook', name:'Facebook', icon:'📘', fields:[{key:'link',label:'Profil Linki',placeholder:'Profil URL girin'}] },
-      { type:'qr', name:'QR Oluşturucu', icon:'📱', fields:[{key:'text',label:'Metin/URL',placeholder:'QR içeriği'}] }
+      { type:'gpt', name:'GPT Soru', icon:'◇', fields:[{key:'question',label:'Soru',placeholder:'Sorunuzu yazın'}] },
+      { type:'sifre_olusturucu', name:'Şifre Oluşturucu', icon:'◇', fields:[{key:'length',label:'Uzunluk',placeholder:'16'}] },
+      { type:'web_kazima', name:'Web Kazıma', icon:'◇', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
+      { type:'encode', name:'Encode', icon:'◇', fields:[{key:'text',label:'Metin',placeholder:'Encode edilecek metin'}] },
+      { type:'decode', name:'Decode', icon:'◇', fields:[{key:'text',label:'Metin',placeholder:'Decode edilecek metin'}] },
+      { type:'log_finder', name:'Log Finder', icon:'◇', fields:[{key:'query',label:'Arama',placeholder:'Aranacak terim'}] },
+      { type:'screenshot', name:'Screenshot', icon:'◇', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
+      { type:'craftrise', name:'Craftrise', icon:'◇', fields:[{key:'username',label:'Kullanıcı Adı',placeholder:'Kullanıcı adı'}] },
+      { type:'facebook', name:'Facebook', icon:'◇', fields:[{key:'link',label:'Profil Linki',placeholder:'Profil URL girin'}] },
+      { type:'qr', name:'QR Oluşturucu', icon:'◇', fields:[{key:'text',label:'Metin/URL',placeholder:'QR içeriği'}] }
     ]
   }
 ];
 
 const adminCategory = {
-  id:'admin', name:'Admin Panel', icon:'⚙️', css:'cat-admin',
+  id:'admin', name:'Admin Panel', icon:'⚠', css:'cat-admin',
   queries: [
-    { type:'admin_announcement', name:'Duyuru Gönder', icon:'📢', fields:[{key:'message',label:'Duyuru Metni',placeholder:'Duyuru yazın'}] },
-    { type:'admin_total_users', name:'Toplam Kullanıcı', icon:'📊', fields:[] },
-    { type:'admin_user_list', name:'Kullanıcı Listesi', icon:'📋', fields:[] },
-    { type:'admin_ban_user', name:'Kullanıcı Banla', icon:'🚫', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
-    { type:'admin_unban_user', name:'Ban Kaldır', icon:'✅', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
-    { type:'admin_banlist', name:'Ban Listesi', icon:'📋', fields:[] },
-    { type:'admin_get_logs', name:'Logları Getir', icon:'📄', fields:[] },
-    { type:'admin_restart_bot', name:'Botu Yeniden Başlat', icon:'🔄', fields:[] },
-    { type:'admin_destroy_bot', name:'Botu Durdur', icon:'💀', fields:[] }
+    { type:'admin_announcement', name:'Duyuru Gönder', icon:'▸', fields:[{key:'message',label:'Duyuru Metni',placeholder:'Duyuru yazın'}] },
+    { type:'admin_total_users', name:'Toplam Kullanıcı', icon:'▸', fields:[] },
+    { type:'admin_user_list', name:'Kullanıcı Listesi', icon:'▸', fields:[] },
+    { type:'admin_ban_user', name:'Kullanıcı Banla', icon:'▸', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
+    { type:'admin_unban_user', name:'Ban Kaldır', icon:'▸', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
+    { type:'admin_banlist', name:'Ban Listesi', icon:'▸', fields:[] },
+    { type:'admin_get_logs', name:'Logları Getir', icon:'▸', fields:[] },
+    { type:'admin_restart_bot', name:'Botu Yeniden Başlat', icon:'▸', fields:[] },
+    { type:'admin_destroy_bot', name:'Botu Durdur', icon:'▸', fields:[] }
   ]
 };
 
-// ─── Build Accordion ───
+// ═══ Build Accordion ═══
 let currentQuery = null;
 let pageHistory = ['home'];
 
@@ -590,7 +861,7 @@ function buildAccordion() {
         <div class="accordion-icon">${cat.icon}</div>
         <div class="accordion-info">
           <div class="accordion-name">${cat.name}</div>
-          <div class="accordion-count">${cat.queries.length} sorgu</div>
+          <div class="accordion-count">${cat.queries.length} modül yüklendi</div>
         </div>
         <div class="accordion-arrow">▼</div>
       </div>
@@ -600,7 +871,7 @@ function buildAccordion() {
             <button class="query-btn" onclick="openForm('${cat.id}','${q.type}')">
               <span class="q-icon">${q.icon}</span>
               <span class="q-label">${q.name}</span>
-              <span class="q-arrow">›</span>
+              <span class="q-arrow">→</span>
             </button>
           `).join('')}
         </div>
@@ -620,46 +891,47 @@ function toggleAccordion(catId) {
     el.querySelector('.accordion-body').style.maxHeight = '0';
   });
 
-  // Open clicked if was closed
   if (!isOpen) {
     item.classList.add('open');
     body.style.maxHeight = body.scrollHeight + 'px';
+    // Scroll into view
+    setTimeout(() => item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
   }
 }
 
-// ─── Form Page ───
+// ═══ Form Page ═══
 function openForm(catId, queryType) {
   const allCats = isAdmin ? [...categories, adminCategory] : [...categories];
   const cat = allCats.find(c => c.id === catId);
   const query = cat.queries.find(q => q.type === queryType);
   currentQuery = query;
 
-  const formCard = document.getElementById('formCard');
-
   if (query.fields.length === 0) {
-    // No fields, send immediately
     sendData(query.type, {});
     return;
   }
 
+  const formCard = document.getElementById('formCard');
   formCard.innerHTML = `
-    <div class="form-title">${query.icon} ${query.name}</div>
-    <div class="form-desc">Bilgileri doldurup sorgulayın</div>
+    <div class="form-title">> ${query.name}</div>
+    <div class="form-desc">root@n1tr:~# ${query.type} --execute</div>
     ${query.fields.map((f, i) => `
       <div class="form-group">
-        <label class="form-label">${f.label} ${f.optional ? '<span class="form-optional">(Opsiyonel)</span>' : ''}</label>
-        <input class="form-input" id="field-${i}" type="text" placeholder="${f.placeholder}" ${f.maxlength ? `maxlength="${f.maxlength}"` : ''} autocomplete="off">
-        ${f.optional ? '<div class="form-hint">Boş bırakabilirsiniz</div>' : ''}
+        <label class="form-label">${f.label} ${f.optional ? '<span class="form-optional">(opsiyonel)</span>' : ''}</label>
+        <input class="form-input" id="field-${i}" type="text" placeholder="${f.placeholder}" ${f.maxlength ? `maxlength="${f.maxlength}"` : ''} autocomplete="off" spellcheck="false">
+        ${f.optional ? '<div class="form-hint">// Boş bırakabilirsiniz</div>' : ''}
       </div>
     `).join('')}
-    <button class="form-submit" onclick="submitForm()">Sorgula</button>
+    <button class="form-submit" onclick="submitForm()">[ EXECUTE ]</button>
   `;
 
   showPage('form');
-  document.getElementById('headerTitle').textContent = query.name;
+  document.getElementById('headerTitle').innerHTML = `> ${query.name}<span class="blink">_</span>`;
 
-  // Focus first input
-  setTimeout(() => { const inp = document.getElementById('field-0'); if (inp) inp.focus(); }, 300);
+  setTimeout(() => {
+    const inp = document.getElementById('field-0');
+    if (inp) inp.focus();
+  }, 300);
 }
 
 function submitForm() {
@@ -673,14 +945,16 @@ function submitForm() {
     const val = input.value.trim();
     if (!f.optional && !val) {
       input.style.borderColor = 'var(--red)';
+      input.style.boxShadow = '0 0 0 3px rgba(255,51,85,0.1)';
       valid = false;
     } else {
       input.style.borderColor = '';
+      input.style.boxShadow = '';
     }
     data[f.key] = val || null;
   });
 
-  if (!valid) { showToast('Lütfen tüm alanları doldurun'); return; }
+  if (!valid) { showToast('⚠ Tüm alanları doldurun'); return; }
 
   sendData(currentQuery.type, data);
 }
@@ -689,22 +963,20 @@ function sendData(type, data) {
   if (tg) {
     tg.sendData(JSON.stringify({ type, data }));
     showLoading(true);
-    // WebApp will close after sendData, but show loading just in case
-    setTimeout(() => { showLoading(false); showToast('Sorgu gönderildi'); }, 2000);
+    setTimeout(() => { showLoading(false); showToast('Sorgu iletildi'); }, 2000);
   } else {
-    // Browser test mode
-    showToast('Test: ' + type + ' → ' + JSON.stringify(data));
+    showToast('TEST: ' + type + ' → ' + JSON.stringify(data));
   }
 }
 
-// ─── Navigation ───
+// ═══ Navigation ═══
 function showPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
 
   if (page === 'home') {
     document.getElementById('homePage').classList.add('active');
     document.getElementById('backBtn').classList.remove('visible');
-    document.getElementById('headerTitle').textContent = 'N1 Panel';
+    document.getElementById('headerTitle').innerHTML = 'N1 TÜRKİYE:~$ <span class="blink">_</span>';
     pageHistory = ['home'];
   } else if (page === 'form') {
     document.getElementById('formPage').classList.add('active');
@@ -723,7 +995,7 @@ function goBack() {
   showPage(prev);
 }
 
-// ─── Utilities ───
+// ═══ Utilities ═══
 function showLoading(show) {
   document.getElementById('loadingOverlay').classList.toggle('active', show);
 }
@@ -737,12 +1009,16 @@ function showToast(msg) {
 
 function copyText(text, btn) {
   navigator.clipboard.writeText(text).then(() => {
-    if (btn) { btn.classList.add('copied'); btn.textContent = '✓ Kopyalandı'; setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '📋 Kopyala'; }, 1500); }
-    else showToast('Kopyalandı');
+    if (btn) {
+      btn.classList.add('copied');
+      btn.textContent = '✓ OK';
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '⊕ Kopyala'; }, 1500);
+    } else showToast('Kopyalandı');
   }).catch(() => showToast('Kopyalanamadı'));
 }
 
-// ─── Init ───
+// ═══ Init ═══
+bootSequence();
 buildAccordion();
 </script>
 </body>
