@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>N1 Terminal</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --card: #141414;
+      --border: #1a1a1a;
+      --green: #00ff41;
+      --green-dim: #00cc33;
+      --green-dark: rgba(0,255,65,0.08);
+      --green-glow: rgba(0,255,65,0.15);
+      --red: #ff0040;
+      --red-dim: rgba(255,0,64,0.1);
+      --cyan: #00e5ff;
+      --yellow: #ffd600;
+      --text: #c0c0c0;
+      --hint: #555;
+      --radius: 8px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.015) 2px, rgba(0,255,65,0.015) 4px);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .page { display: none; padding: 12px; padding-bottom: 100px; animation: bootUp 0.4s ease; }
+    .page.active { display: block; }
+
+    @keyframes bootUp {
+      0% { opacity: 0; filter: brightness(2); }
+      50% { opacity: 0.8; }
+      100% { opacity: 1; filter: brightness(1); }
+    }
+
+    @keyframes glitch {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-2px); }
+      40% { transform: translateX(2px); }
+      60% { transform: translateX(-1px); }
+      80% { transform: translateX(1px); }
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes scanline {
+      0% { top: -10%; }
+      100% { top: 110%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 5px rgba(0,255,65,0.2); }
+      50% { box-shadow: 0 0 15px rgba(0,255,65,0.4); }
+    }
+
+    .terminal-header {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .terminal-bar {
+      background: var(--card);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .terminal-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: var(--red); }
+    .dot-yellow { background: var(--yellow); }
+    .dot-green { background: var(--green); }
+
+    .terminal-title {
+      margin-left: 8px;
+      font-size: 11px;
+      color: var(--hint);
+    }
+
+    .terminal-body {
+      background: var(--bg2);
+      padding: 14px;
+    }
+
+    .terminal-line {
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--green);
+    }
+
+    .terminal-line .prompt {
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    .terminal-line .cmd {
+      color: var(--green);
+    }
+
+    .terminal-line .info {
+      color: var(--cyan);
+    }
+
+    .terminal-line .dim {
+      color: var(--hint);
+    }
+
+    .cursor-blink::after {
+      content: '█';
+      animation: blink 1s infinite;
+      color: var(--green);
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      margin-bottom: 12px;
+    }
+
+    .status-online {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--green);
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 2s infinite;
+    }
+
+    .status-user {
+      font-size: 11px;
+      color: var(--hint);
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .category-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--green);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .category-card:active {
+      transform: scale(0.97);
+      border-color: var(--green);
+    }
+
+    .category-card:active::before { opacity: 1; }
+
+    .category-card .c-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .category-card .c-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .category-card .c-count {
+      font-size: 10px;
+      color: var(--hint);
+      margin-top: 4px;
+    }
+
+    .sub-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      width: 32px; height: 32px;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--green);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      transition: 0.15s;
+    }
+
+    .back-btn:active { border-color: var(--green); transform: scale(0.9); }
+
+    .sub-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .query-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .query-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: 0.15s;
+      animation: bootUp 0.3s ease backwards;
+    }
+
+    .query-item:nth-child(1) { animation-delay: 0.03s; }
+    .query-item:nth-child(2) { animation-delay: 0.06s; }
+    .query-item:nth-child(3) { animation-delay: 0.09s; }
+    .query-item:nth-child(4) { animation-delay: 0.12s; }
+    .query-item:nth-child(5) { animation-delay: 0.15s; }
+    .query-item:nth-child(6) { animation-delay: 0.18s; }
+    .query-item:nth-child(7) { animation-delay: 0.21s; }
+    .query-item:nth-child(8) { animation-delay: 0.24s; }
+    .query-item:nth-child(9) { animation-delay: 0.27s; }
+
+    .query-item:active {
+      border-color: var(--green);
+      background: var(--green-dark);
+    }
+
+    .query-item .qi-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .query-item .qi-icon {
+      width: 34px; height: 34px;
+      border-radius: 6px;
+      background: var(--green-dark);
+      border: 1px solid rgba(0,255,65,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .query-item .qi-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--green);
+    }
+
+    .query-item .qi-desc {
+      font-size: 10px;
+      color: var(--hint);
+      margin-top: 1px;
+    }
+
+    .query-item .qi-arrow {
+      color: var(--green);
+      font-size: 14px;
+      opacity: 0.4;
+    }
+
+    .form-section {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .form-bar {
+      background: var(--card);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-bar-title {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .form-bar-badge {
+      font-size: 9px;
+      color: var(--bg);
+      background: var(--green);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .form-body {
+      background: var(--bg2);
+      padding: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--green-dim);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--green);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 8px rgba(0,255,65,0.15);
+    }
+
+    .form-group input::placeholder, .form-group textarea::placeholder {
+      color: #333;
+    }
+
+    .form-group select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .form-group select option {
+      background: var(--bg);
+      color: var(--green);
+    }
+
+    .optional-tag {
+      font-size: 9px;
+      color: var(--cyan);
+      margin-left: 6px;
+      font-weight: 400;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--green);
+      background: var(--green-dark);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: 0.2s;
+      animation: pulse 2s infinite;
+    }
+
+    .submit-btn:active {
+      background: var(--green);
+      color: var(--bg);
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      animation: none;
+    }
+
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .loading-overlay.active { display: flex; }
+
+    .loading-spinner {
+      width: 36px; height: 36px;
+      border: 2px solid var(--border);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 11px;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .admin-card {
+      background: var(--card);
+      border: 1px solid var(--red);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+      overflow: hidden;
+      grid-column: 1 / -1;
+    }
+
+    .admin-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--red);
+    }
+
+    .admin-card:active {
+      transform: scale(0.97);
+      background: var(--red-dim);
+    }
+
+    .admin-card .c-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .admin-card .c-count {
+      font-size: 10px;
+      color: var(--hint);
+      margin-top: 4px;
+    }
+
+    .admin-badge {
+      position: absolute;
+      top: 8px; right: 8px;
+      font-size: 8px;
+      color: var(--bg);
+      background: var(--red);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 700;
+    }
+
+    .admin-query-item {
+      border-color: rgba(255,0,64,0.2);
+    }
+
+    .admin-query-item:active {
+      border-color: var(--red);
+      background: var(--red-dim);
+    }
+
+    .admin-query-item .qi-icon {
+      background: var(--red-dim);
+      border-color: rgba(255,0,64,0.15);
+    }
+
+    .admin-query-item .qi-name {
+      color: var(--red);
+    }
+
+    .admin-query-item .qi-arrow {
+      color: var(--red);
+    }
+
+    .admin-submit {
+      border-color: var(--red);
+      background: var(--red-dim);
+      color: var(--red);
+      animation: none;
+    }
+
+    .admin-submit:active {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .footer-line {
+      text-align: center;
+      font-size: 9px;
+      color: var(--hint);
+      margin-top: 20px;
+      padding: 10px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">[ Sorgulanıyor... ]</div>
+  </div>
+
+  <!-- === ANA SAYFA === -->
+  <div class="page active" id="page-home">
+    <div class="terminal-header">
+      <div class="terminal-bar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <span class="terminal-title">n1@terminal:~$</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line"><span class="prompt">root@n1</span><span class="dim">:</span><span class="info">~</span><span class="dim">$</span> <span class="cmd">./connect --panel</span></div>
+        <div class="terminal-line"><span class="dim">[+]</span> <span class="info">Bağlantı kuruldu</span></div>
+        <div class="terminal-line"><span class="dim">[+]</span> Hoşgeldin, <span class="info" id="userName">Kullanıcı</span></div>
+        <div class="terminal-line"><span class="dim">[+]</span> <span class="cmd">Sorgu paneli hazır</span></div>
+        <div class="terminal-line cursor-blink"><span class="prompt">root@n1</span><span class="dim">:</span><span class="info">~</span><span class="dim">$ </span></div>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-online">
+        <div class="status-dot"></div>
+        SİSTEM AKTİF
+      </div>
+      <div class="status-user">@cimerhatti</div>
+    </div>
+
+    <div class="categories">
+      <div class="category-card" onclick="showCategory('mernis')">
+        <span class="c-icon">🔍</span>
+        <div class="c-name">Mernis</div>
+        <div class="c-count">// 9 modül yüklü</div>
+      </div>
+      <div class="category-card" onclick="showCategory('telefon')">
+        <span class="c-icon">📱</span>
+        <div class="c-name">Telefon</div>
+        <div class="c-count">// 3 modül yüklü</div>
+      </div>
+      <div class="category-card" onclick="showCategory('ekstra')">
+        <span class="c-icon">⭐</span>
+        <div class="c-name">Ekstra</div>
+        <div class="c-count">// 7 modül yüklü</div>
+      </div>
+      <div class="category-card" onclick="showCategory('kontrol')">
+        <span class="c-icon">✅</span>
+        <div class="c-name">Kontrol</div>
+        <div class="c-count">// 6 modül yüklü</div>
+      </div>
+      <div class="category-card" onclick="showCategory('tapu')">
+        <span class="c-icon">🏠</span>
+        <div class="c-name">Tapu</div>
+        <div class="c-count">// 9 modül yüklü</div>
+      </div>
+      <div class="category-card" onclick="showCategory('diger')">
+        <span class="c-icon">📂</span>
+        <div class="c-name">Diğer</div>
+        <div class="c-count">// 10 modül yüklü</div>
+      </div>
+      <div class="admin-card" id="adminCard" style="display:none;" onclick="showCategory('admin')">
+        <span class="admin-badge">ROOT</span>
+        <span class="c-icon">🛡️</span>
+        <div class="c-name">Yönetim Paneli</div>
+        <div class="c-count">// admin@cimerhatti erişimi</div>
+      </div>
+    </div>
+
+    <div class="footer-line">N1 Terminal v2.0 | @cimerhatti</div>
+  </div>
+
+  <!-- === KATEGORİ SAYFASI === -->
+  <div class="page" id="page-category">
+    <div class="sub-header">
+      <button class="back-btn" onclick="goHome()">←</button>
+      <h2 id="categoryTitle"></h2>
+    </div>
+    <div class="query-list" id="queryList"></div>
+  </div>
+
+  <!-- === FORM SAYFASI === -->
+  <div class="page" id="page-form">
+    <div class="sub-header">
+      <button class="back-btn" onclick="goBackToCategory()">←</button>
+      <h2 id="formTitle"></h2>
+    </div>
+    <div class="form-section">
+      <div class="form-bar">
+        <span class="form-bar-title" id="formBarTitle">SORGU</span>
+        <span class="form-bar-badge" id="formBadge">HAZIR</span>
+      </div>
+      <div class="form-body">
+        <form id="queryForm" onsubmit="submitQuery(event)">
+          <div id="formFields"></div>
+          <button type="submit" class="submit-btn" id="submitBtn">[ SORGULA ]</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    tg.setHeaderColor('#0a0a0a');
+    tg.setBackgroundColor('#0a0a0a');
+
+    const ADMIN_ID = 7424617978;
+    const userId = tg.initDataUnsafe?.user?.id;
+    const userFirstName = tg.initDataUnsafe?.user?.first_name || 'Kullanıcı';
+
+    document.getElementById('userName').textContent = userFirstName;
+
+    if (userId === ADMIN_ID) {
+      document.getElementById('adminCard').style.display = 'block';
+    }
+
+    let currentCategory = null;
+
+    const queries = {
+      mernis: {
+        title: "MERNIS SORGU",
+        items: [
+          { id: "ad_soyad", name: "Ad Soyad Sorgu", icon: "👤", desc: "İsim ile arama", fields: [
+            { key: "ad", label: "Ad", placeholder: "Ahmet", required: true },
+            { key: "soyad", label: "Soyad", placeholder: "Yılmaz", required: true }
+          ]},
+          { id: "ad_soyad_pro", name: "Ad Soyad Pro", icon: "👤", desc: "İsim + konum ile arama", fields: [
+            { key: "ad", label: "Ad", placeholder: "Ahmet", required: true },
+            { key: "soyad", label: "Soyad", placeholder: "Yılmaz", required: true },
+            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
+            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: false }
+          ]},
+          { id: "tckn", name: "TC Sorgu", icon: "🪪", desc: "TC ile temel bilgi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "tckn_pro", name: "TC Pro Sorgu", icon: "🪪", desc: "TC ile detaylı bilgi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "aile", name: "Aile Sorgu", icon: "👨‍👩‍👧‍👦", desc: "Aile üyeleri", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "ailepro", name: "Aile Pro", icon: "👨‍👩‍👧‍👦", desc: "Detaylı aile bilgisi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "sulale", name: "Sülale Sorgu", icon: "🌳", desc: "Sülale ağacı", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "sulale_pro", name: "Sülale Pro", icon: "🌳", desc: "Detaylı sülale ağacı", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "hikaye", name: "Hikaye Sorgu", icon: "📖", desc: "Kişi geçmişi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]}
+        ]
+      },
+      telefon: {
+        title: "TELEFON SORGU",
+        items: [
+          { id: "tcgsm", name: "TC → Telefon", icon: "📞", desc: "TC'den GSM bul", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "gsmtc", name: "Telefon → TC", icon: "📲", desc: "GSM'den TC bul", fields: [
+            { key: "telefon", label: "Telefon No", placeholder: "5XX1234567", required: true, maxlength: 11 }
+          ]},
+          { id: "operator", name: "Operatör Sorgu", icon: "📡", desc: "Hat operatör bilgisi", fields: [
+            { key: "telefon", label: "Telefon No", placeholder: "5XX1234567", required: true, maxlength: 11 }
+          ]}
+        ]
+      },
+      ekstra: {
+        title: "EKSTRA SORGU",
+        items: [
+          { id: "okul_no", name: "Okul No", icon: "🎓", desc: "Okul numarası", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "vesika", name: "Vesika Sorgu", icon: "📋", desc: "Belge sorgulama", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "adres", name: "Adres Sorgu", icon: "📍", desc: "Adres bilgisi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "is_yeri", name: "İş Yeri", icon: "🏢", desc: "İş yeri bilgisi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "yabanci", name: "Yabancı Sorgu", icon: "🌍", desc: "Yabancı uyruklu", fields: [
+            { key: "kimlik", label: "Kimlik/Pasaport No", placeholder: "Kimlik numarası", required: true }
+          ]},
+          { id: "akparti", name: "AK Parti", icon: "🏛️", desc: "Parti üyelik", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "adres_2015", name: "Adres 2015", icon: "📍", desc: "2015 seçmen adresi", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]}
+        ]
+      },
+      kontrol: {
+        title: "KONTROL SORGU",
+        items: [
+          { id: "dns", name: "DNS Sorgu", icon: "🌐", desc: "DNS kayıtları", fields: [
+            { key: "domain", label: "Domain", placeholder: "example.com", required: true }
+          ]},
+          { id: "bin", name: "BIN Sorgu", icon: "💳", desc: "BIN bilgisi", fields: [
+            { key: "bin_no", label: "BIN No", placeholder: "123456", required: true, maxlength: 8 }
+          ]},
+          { id: "dc", name: "Discord Kontrol", icon: "🎮", desc: "Token kontrolü", fields: [
+            { key: "token", label: "Token", placeholder: "Token girin", required: true }
+          ]},
+          { id: "cc_checker", name: "CC Kontrol", icon: "💳", desc: "Kart kontrolü", fields: [
+            { key: "cc", label: "Kart Bilgisi", placeholder: "Kart numarası", required: true }
+          ]},
+          { id: "ip_checker", name: "IP Sorgu", icon: "🔎", desc: "IP bilgileri", fields: [
+            { key: "ip", label: "IP Adresi", placeholder: "8.8.8.8", required: true }
+          ]},
+          { id: "mail_checker", name: "Mail Kontrol", icon: "📧", desc: "E-posta doğrulama", fields: [
+            { key: "email", label: "E-posta", placeholder: "ornek@mail.com", required: true, type: "email" }
+          ]}
+        ]
+      },
+      tapu: {
+        title: "TAPU SORGU",
+        items: [
+          { id: "tapu", name: "Tapu Sorgu", icon: "🏠", desc: "Genel tapu", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "tbs", name: "Bölge Sorgu", icon: "📍", desc: "Bölgeye göre tapu", fields: [
+            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
+            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true }
+          ]},
+          { id: "tps", name: "Parsel Sorgu", icon: "📐", desc: "Ada/parsel", fields: [
+            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
+            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true },
+            { key: "ada", label: "Ada No", placeholder: "123", required: true },
+            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
+          ]},
+          { id: "istanbul_tapu", name: "İstanbul Tapu", icon: "🌉", desc: "İstanbul tapu", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "itbs", name: "İst. Bölge", icon: "📍", desc: "İstanbul bölge", fields: [
+            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true }
+          ]},
+          { id: "ips", name: "İst. Parsel", icon: "📐", desc: "İstanbul parsel", fields: [
+            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true },
+            { key: "ada", label: "Ada No", placeholder: "123", required: true },
+            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
+          ]},
+          { id: "kocaeli_tapu", name: "Kocaeli Tapu", icon: "🏗️", desc: "Kocaeli tapu", fields: [
+            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
+          ]},
+          { id: "ktbs", name: "Kocaeli Bölge", icon: "📍", desc: "Kocaeli bölge", fields: [
+            { key: "ilce", label: "İlçe", placeholder: "İzmit", required: true }
+          ]},
+          { id: "ktps", name: "Kocaeli Parsel", icon: "📐", desc: "Kocaeli parsel", fields: [
+            { key: "ilce", label: "İlçe", placeholder: "İzmit", required: true },
+            { key: "ada", label: "Ada No", placeholder: "123", required: true },
+            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
+          ]}
+        ]
+      },
+      diger: {
+        title: "DİĞER ARAÇLAR",
+        items: [
+          { id: "gpt", name: "GPT Sohbet", icon: "🤖", desc: "AI ile sohbet", fields: [
+            { key: "soru", label: "Sorunuz", placeholder: "Bir şey sorun...", required: true, type: "textarea" }
+          ]},
+          { id: "sifre_olusturucu", name: "Şifre Üretici", icon: "🔑", desc: "Güçlü şifre üret", fields: [
+            { key: "uzunluk", label: "Uzunluk", placeholder: "16", required: true, type: "number" }
+          ]},
+          { id: "web_kazima", name: "Web Kazıma", icon: "🕸️", desc: "Sayfa içerik çek", fields: [
+            { key: "url", label: "URL", placeholder: "https://example.com", required: true }
+          ]},
+          { id: "decend", name: "Encode/Decode", icon: "🔄", desc: "Şifrele / Çöz", fields: [
+            { key: "metin", label: "Metin", placeholder: "Metin girin", required: true },
+            { key: "islem", label: "İşlem", required: true, type: "select", options: [
+              { value: "encode", label: "Encode" },
+              { value: "decode", label: "Decode" }
+            ]}
+          ]},
+          { id: "log", name: "Log Bulucu", icon: "📜", desc: "Log arama", fields: [
+            { key: "arama", label: "Arama", placeholder: "Aranacak kelime", required: true }
+          ]},
+          { id: "screen", name: "Screenshot", icon: "📸", desc: "Site ekran görüntüsü", fields: [
+            { key: "url", label: "URL", placeholder: "https://example.com", required: true }
+          ]},
+          { id: "craft", name: "Craftrise", icon: "⛏️", desc: "Oyuncu sorgula", fields: [
+            { key: "kullanici", label: "Kullanıcı Adı", placeholder: "Oyuncu adı", required: true }
+          ]},
+          { id: "face", name: "Facebook", icon: "📘", desc: "Profil bilgisi", fields: [
+            { key: "link", label: "Profil Linki", placeholder: "https://facebook.com/...", required: true }
+          ]},
+          { id: "hesap", name: "Döviz", icon: "💱", desc: "Kur hesaplama", fields: [
+            { key: "miktar", label: "Miktar", placeholder: "100", required: true, type: "number" },
+            { key: "birim", label: "Birim", required: true, type: "select", options: [
+              { value: "USD", label: "USD" },
+              { value: "EUR", label: "EUR" },
+              { value: "GBP", label: "GBP" }
+            ]}
+          ]},
+          { id: "qr_gen", name: "QR Üretici", icon: "📱", desc: "QR kod oluştur", fields: [
+            { key: "metin", label: "Metin / URL", placeholder: "https://example.com", required: true }
+          ]}
+        ]
+      },
+      admin: {
+        title: "YÖNETİM PANELİ",
+        isAdmin: true,
+        items: [
+          { id: "admin_announcement", name: "Duyuru Gönder", icon: "📢", desc: "Tüm kullanıcılara mesaj", fields: [
+            { key: "mesaj", label: "Duyuru Mesajı", placeholder: "Duyuru metnini yazın...", required: true, type: "textarea" }
+          ]},
+          { id: "admin_total_users", name: "Kullanıcı Sayısı", icon: "👥", desc: "Toplam kullanıcı", fields: []},
+          { id: "admin_user_list", name: "Kullanıcı Listesi", icon: "📂", desc: "Tüm kullanıcılar", fields: []},
+          { id: "admin_ban_user", name: "Kullanıcı Banla", icon: "🚫", desc: "Kullanıcı yasakla", fields: [
+            { key: "hedef", label: "Kullanıcı ID veya @username", placeholder: "7424617978 veya @kullanici", required: true },
+            { key: "sebep", label: "Sebep", placeholder: "Ban sebebi", required: false }
+          ]},
+          { id: "admin_unban_user", name: "Ban Kaldır", icon: "✅", desc: "Yasağı kaldır", fields: [
+            { key: "hedef", label: "Kullanıcı ID veya @username", placeholder: "7424617978 veya @kullanici", required: true }
+          ]},
+          { id: "admin_banlist", name: "Banlı Liste", icon: "📜", desc: "Banlı kullanıcılar", fields: []},
+          { id: "admin_get_logs", name: "Logları Getir", icon: "📋", desc: "Sistem logları", fields: []},
+          { id: "admin_restart_bot", name: "Botu Yeniden Başlat", icon: "🔄", desc: "Bot restart", fields: []},
+          { id: "admin_destroy_bot", name: "Botu Yok Et", icon: "💀", desc: "DİKKAT: Geri dönüşü yok", fields: []}
+        ]
+      }
+    };
+
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+    }
+
+    function goHome() {
+      currentCategory = null;
+      showPage('home');
+    }
+
+    function goBackToCategory() {
+      if (currentCategory) showCategory(currentCategory);
+      else goHome();
+    }
+
+    function showCategory(cat) {
+      if (cat === 'admin' && userId !== ADMIN_ID) return;
+      currentCategory = cat;
+      const data = queries[cat];
+      document.getElementById('categoryTitle').textContent = data.title;
+
+      const list = document.getElementById('queryList');
+      list.innerHTML = '';
+
+      data.items.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'query-item' + (data.isAdmin ? ' admin-query-item' : '');
+
+        if (item.fields.length === 0) {
+          el.onclick = () => sendDirect(item.id);
+        } else {
+          el.onclick = () => showForm(cat, item);
+        }
+
+        el.innerHTML = `
+          <div class="qi-left">
+            <div class="qi-icon">${item.icon}</div>
+            <div>
+              <div class="qi-name">${item.name}</div>
+              <div class="qi-desc">${item.desc}</div>
+            </div>
+          </div>
+          <div class="qi-arrow">›</div>
+        `;
+        list.appendChild(el);
+      });
+
+      showPage('category');
+    }
+
+    let currentQueryId = null;
+    let isAdminForm = false;
+
+    function showForm(cat, item) {
+      currentQueryId = item.id;
+      isAdminForm = queries[cat].isAdmin || false;
+      document.getElementById('formTitle').textContent = item.name.toUpperCase();
+      document.getElementById('formBarTitle').textContent = item.name;
+      document.getElementById('formBadge').textContent = isAdminForm ? 'ADMIN' : 'HAZIR';
+      document.getElementById('formBadge').style.background = isAdminForm ? 'var(--red)' : 'var(--green)';
+
+      const btn = document.getElementById('submitBtn');
+      btn.className = 'submit-btn' + (isAdminForm ? ' admin-submit' : '');
+      btn.textContent = isAdminForm ? '[ ÇALIŞTIR ]' : '[ SORGULA ]';
+
+      const container = document.getElementById('formFields');
+      container.innerHTML = '';
+
+      item.fields.forEach(field => {
+        const group = document.createElement('div');
+        group.className = 'form-group';
+
+        let labelHTML = field.label;
+        if (!field.required) labelHTML += '<span class="optional-tag">OPSİYONEL</span>';
+
+        let inputHTML = '';
+        if (field.type === 'textarea') {
+          inputHTML = `<textarea name="${field.key}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''} rows="3"></textarea>`;
+        } else if (field.type === 'select') {
+          const opts = field.options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
+          inputHTML = `<select name="${field.key}" ${field.required ? 'required' : ''}>${opts}</select>`;
+        } else {
+          const type = field.type || 'text';
+          const pattern = field.pattern ? `pattern="${field.pattern}"` : '';
+          const maxlength = field.maxlength ? `maxlength="${field.maxlength}"` : '';
+          inputHTML = `<input type="${type}" name="${field.key}" placeholder="${field.placeholder || ''}" ${field.required ? 'required' : ''} ${pattern} ${maxlength} autocomplete="off">`;
+        }
+
+        group.innerHTML = `<label>${labelHTML}</label>${inputHTML}`;
+        container.appendChild(group);
+      });
+
+      showPage('form');
+      const firstInput = container.querySelector('input, textarea');
+      if (firstInput) setTimeout(() => firstInput.focus(), 300);
+    }
+
+    function sendDirect(type) {
+      const payload = JSON.stringify({ type: type, data: {} });
+      showLoading();
+      try { tg.sendData(payload); } catch(e) { hideLoading(); tg.showAlert('Hata: ' + e.message); }
+    }
+
+    function submitQuery(e) {
+      e.preventDefault();
+      const form = document.getElementById('queryForm');
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((val, key) => { data[key] = val.trim(); });
+
+      const payload = JSON.stringify({ type: currentQueryId, data: data });
+      showLoading();
+      try { tg.sendData(payload); } catch(e) { hideLoading(); tg.showAlert('Hata: ' + e.message); }
+    }
+
+    function showLoading() {
+      document.getElementById('loadingOverlay').classList.add('active');
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
