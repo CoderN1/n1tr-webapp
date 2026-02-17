@@ -357,12 +357,14 @@ async function executeQuery(type, data) {
     const resp = await fetch(API + '/api/query', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, data })
+      body: JSON.stringify({ type, data, userId })
     });
     const json = await resp.json();
     showLoading(false);
 
-    if (json.success && json.results) {
+    if (json.requireChannel) {
+      showChannelRequired(json.channelUrl);
+    } else if (json.success && json.results) {
       showResults(currentQuery ? currentQuery.name : type, json.results);
     } else {
       showError(json.error || 'Bilinmeyen hata');
@@ -407,6 +409,21 @@ function showResults(title, results) {
   window._lastResults = results;
   showPage('result');
   document.getElementById('headerTitle').innerHTML = `> Sonuçlar<span class="blink">_</span>`;
+}
+
+function showChannelRequired(channelUrl) {
+  const c = document.getElementById('resultContainer');
+  c.innerHTML = `
+    <div class="error-box">
+      <div class="error-icon">🔒</div>
+      <div class="error-text">Kanal Üyeliği Gerekli</div>
+      <div class="error-hint">Botu kullanmak için @n1trkanal kanalına katılmalısınız</div>
+      <button class="error-retry" style="border-color:var(--green);color:var(--green);margin-top:16px;" onclick="window.open('${channelUrl}','_blank')">📢 KANALA KATIL</button>
+      <button class="error-retry" style="margin-top:8px;" onclick="goBack()">← Geri Dön</button>
+    </div>
+  `;
+  showPage('result');
+  document.getElementById('headerTitle').innerHTML = `> Kanal Gerekli<span class="blink">_</span>`;
 }
 
 function showError(msg) {
@@ -461,8 +478,16 @@ function showPage(page) {
 function goBack() {
   pageStack.pop();
   const prev = pageStack[pageStack.length-1] || 'home';
-  if (prev==='home') showPage('home');
-  else if (prev==='form') { showPage('form'); document.getElementById('headerTitle').innerHTML=`> ${currentQuery?currentQuery.name:'Sorgu'}<span class="blink">_</span>`; }
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  if (prev==='home') {
+    document.getElementById('homePage').classList.add('active');
+    document.getElementById('backBtn').classList.remove('visible');
+    document.getElementById('headerTitle').innerHTML='N1 TÜRKİYE:~$ <span class="blink">_</span>';
+  } else if (prev==='form') {
+    document.getElementById('formPage').classList.add('active');
+    document.getElementById('backBtn').classList.add('visible');
+    document.getElementById('headerTitle').innerHTML=`> ${currentQuery?currentQuery.name:'Sorgu'}<span class="blink">_</span>`;
+  }
 }
 
 function showLoading(s) { document.getElementById('loadingOverlay').classList.toggle('active',s); }
