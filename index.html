@@ -766,11 +766,11 @@ const categories = [
     id:'mernis', name:'Mernis', icon:'⟁', css:'cat-mernis',
     queries: [
       { type:'tckn', name:'TC Kimlik Sorgu', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
-      { type:'tc_pro', name:'TC Pro Sorgu', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
-      { type:'ad_soyad', name:'Ad Soyad Sorgu', icon:'◉', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'}] },
-      { type:'ad_soyad_pro', name:'Ad Soyad Pro', icon:'◉', fields:[{key:'firstName',label:'Ad',placeholder:'Ahmet'},{key:'lastName',label:'Soyad',placeholder:'Yılmaz'},{key:'city',label:'İl',placeholder:'İstanbul'},{key:'district',label:'İlçe',placeholder:'Kadıköy',optional:true}] },
+      { type:'tckn_pro', name:'TC Pro Sorgu', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'ad_soyad', name:'Ad Soyad Sorgu', icon:'◉', fields:[{key:'ad',label:'Ad',placeholder:'Ahmet'},{key:'soyad',label:'Soyad',placeholder:'Yılmaz'}] },
+      { type:'ad_soyad_pro', name:'Ad Soyad Pro', icon:'◉', fields:[{key:'ad',label:'Ad',placeholder:'Ahmet'},{key:'soyad',label:'Soyad',placeholder:'Yılmaz'},{key:'il',label:'İl',placeholder:'İstanbul'},{key:'ilce',label:'İlçe',placeholder:'Kadıköy',optional:true}] },
       { type:'aile', name:'Aile Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
-      { type:'aile_pro', name:'Aile Pro Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
+      { type:'ailepro', name:'Aile Pro Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
       { type:'sulale', name:'Sülale Sorgu', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
       { type:'sulale_pro', name:'Sülale Pro', icon:'◎', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
       { type:'hikaye', name:'Hikaye', icon:'◈', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] }
@@ -780,8 +780,8 @@ const categories = [
     id:'telefon', name:'Telefon', icon:'☎', css:'cat-telefon',
     queries: [
       { type:'tcgsm', name:'TC → GSM', icon:'▸', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
-      { type:'gsmtc', name:'GSM → TC', icon:'▸', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] },
-      { type:'operator', name:'Operatör Sorgu', icon:'▸', fields:[{key:'gsm',label:'Telefon No',placeholder:'05XX XXX XXXX'}] }
+      { type:'gsmtc', name:'GSM → TC', icon:'▸', fields:[{key:'telefon',label:'Telefon No',placeholder:'05XX XXX XXXX'}] },
+      { type:'operator', name:'Operatör Sorgu', icon:'▸', fields:[{key:'telefon',label:'Telefon No',placeholder:'05XX XXX XXXX'}] }
     ]
   },
   {
@@ -792,7 +792,7 @@ const categories = [
       { type:'is_yeri', name:'İş Yeri Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
       { type:'okul_no', name:'Okul No Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
       { type:'vesika', name:'Vesika Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] },
-      { type:'yabanci', name:'Yabancı Sorgu', icon:'▹', fields:[{key:'id',label:'Pasaport/Kimlik No',placeholder:'Numara girin'}] },
+      { type:'yabanci', name:'Yabancı Sorgu', icon:'▹', fields:[{key:'kimlik',label:'Pasaport/Kimlik No',placeholder:'Numara girin'}] },
       { type:'akparti', name:'AK Parti Sorgu', icon:'▹', fields:[{key:'tc',label:'TC Kimlik No',placeholder:'xxxxxxxxxxx',maxlength:11}] }
     ]
   },
@@ -800,7 +800,7 @@ const categories = [
     id:'kontrol', name:'Kontrol', icon:'⛨', css:'cat-kontrol',
     queries: [
       { type:'dns', name:'DNS Sorgu', icon:'⊕', fields:[{key:'domain',label:'Domain',placeholder:'example.com'}] },
-      { type:'bin', name:'BIN Sorgu', icon:'⊕', fields:[{key:'bin',label:'BIN (6 hane)',placeholder:'123456',maxlength:6}] },
+      { type:'bin', name:'BIN Sorgu', icon:'⊕', fields:[{key:'bin_no',label:'BIN (6 hane)',placeholder:'123456',maxlength:6}] },
       { type:'ip_checker', name:'IP Sorgu', icon:'⊕', fields:[{key:'ip',label:'IP Adresi',placeholder:'1.2.3.4'}] },
       { type:'mail_checker', name:'Mail Sorgu', icon:'⊕', fields:[{key:'email',label:'E-Posta',placeholder:'ornek@mail.com'}] },
       { type:'cc_checker', name:'CC Check', icon:'⊕', fields:[{key:'cc',label:'Kart Bilgisi',placeholder:'Kart bilgisi girin'}] },
@@ -818,16 +818,16 @@ const categories = [
   {
     id:'diger', name:'Diğer', icon:'⌬', css:'cat-diger',
     queries: [
-      { type:'gpt', name:'GPT Soru', icon:'◇', fields:[{key:'question',label:'Soru',placeholder:'Sorunuzu yazın'}] },
-      { type:'sifre_olusturucu', name:'Şifre Oluşturucu', icon:'◇', fields:[{key:'length',label:'Uzunluk',placeholder:'16'}] },
+      { type:'gpt', name:'GPT Soru', icon:'◇', fields:[{key:'soru',label:'Soru',placeholder:'Sorunuzu yazın'}] },
+      { type:'sifre_olusturucu', name:'Şifre Oluşturucu', icon:'◇', fields:[{key:'uzunluk',label:'Uzunluk',placeholder:'16'}] },
       { type:'web_kazima', name:'Web Kazıma', icon:'◇', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
-      { type:'encode', name:'Encode', icon:'◇', fields:[{key:'text',label:'Metin',placeholder:'Encode edilecek metin'}] },
-      { type:'decode', name:'Decode', icon:'◇', fields:[{key:'text',label:'Metin',placeholder:'Decode edilecek metin'}] },
-      { type:'log_finder', name:'Log Finder', icon:'◇', fields:[{key:'query',label:'Arama',placeholder:'Aranacak terim'}] },
-      { type:'screenshot', name:'Screenshot', icon:'◇', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
-      { type:'craftrise', name:'Craftrise', icon:'◇', fields:[{key:'username',label:'Kullanıcı Adı',placeholder:'Kullanıcı adı'}] },
-      { type:'facebook', name:'Facebook', icon:'◇', fields:[{key:'link',label:'Profil Linki',placeholder:'Profil URL girin'}] },
-      { type:'qr', name:'QR Oluşturucu', icon:'◇', fields:[{key:'text',label:'Metin/URL',placeholder:'QR içeriği'}] }
+      { type:'encode', name:'Encode', icon:'◇', fields:[{key:'metin',label:'Metin',placeholder:'Encode edilecek metin'}] },
+      { type:'decode', name:'Decode', icon:'◇', fields:[{key:'metin',label:'Metin',placeholder:'Decode edilecek metin'}] },
+      { type:'log', name:'Log Finder', icon:'◇', fields:[{key:'arama',label:'Arama',placeholder:'Aranacak terim'}] },
+      { type:'screen', name:'Screenshot', icon:'◇', fields:[{key:'url',label:'URL',placeholder:'https://example.com'}] },
+      { type:'craft', name:'Craftrise', icon:'◇', fields:[{key:'kullanici',label:'Kullanıcı Adı',placeholder:'Kullanıcı adı'}] },
+      { type:'face', name:'Facebook', icon:'◇', fields:[{key:'link',label:'Profil Linki',placeholder:'Profil URL girin'}] },
+      { type:'qr_gen', name:'QR Oluşturucu', icon:'◇', fields:[{key:'metin',label:'Metin/URL',placeholder:'QR içeriği'}] }
     ]
   }
 ];
@@ -835,11 +835,11 @@ const categories = [
 const adminCategory = {
   id:'admin', name:'Admin Panel', icon:'⚠', css:'cat-admin',
   queries: [
-    { type:'admin_announcement', name:'Duyuru Gönder', icon:'▸', fields:[{key:'message',label:'Duyuru Metni',placeholder:'Duyuru yazın'}] },
+    { type:'admin_announcement', name:'Duyuru Gönder', icon:'▸', fields:[{key:'mesaj',label:'Duyuru Metni',placeholder:'Duyuru yazın'}] },
     { type:'admin_total_users', name:'Toplam Kullanıcı', icon:'▸', fields:[] },
     { type:'admin_user_list', name:'Kullanıcı Listesi', icon:'▸', fields:[] },
-    { type:'admin_ban_user', name:'Kullanıcı Banla', icon:'▸', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
-    { type:'admin_unban_user', name:'Ban Kaldır', icon:'▸', fields:[{key:'userId',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
+    { type:'admin_ban_user', name:'Kullanıcı Banla', icon:'▸', fields:[{key:'hedef',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
+    { type:'admin_unban_user', name:'Ban Kaldır', icon:'▸', fields:[{key:'hedef',label:'Kullanıcı ID',placeholder:'Telegram ID'}] },
     { type:'admin_banlist', name:'Ban Listesi', icon:'▸', fields:[] },
     { type:'admin_get_logs', name:'Logları Getir', icon:'▸', fields:[] },
     { type:'admin_restart_bot', name:'Botu Yeniden Başlat', icon:'▸', fields:[] },
